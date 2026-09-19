@@ -1,0 +1,5 @@
+numpy
+opencv-python-headless
+Pillow
+pywin32
+rapidocr-onnxruntime

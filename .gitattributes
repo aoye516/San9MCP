@@ -1,0 +1,24 @@
+# 统一换行符，免得 Windows / macOS / Linux 互相改行尾产生噪音 diff
+* text=auto
+
+*.py    text eol=lf
+*.md    text eol=lf
+*.json  text eol=lf
+*.jsonl text eol=lf
+*.yml   text eol=lf
+*.yaml  text eol=lf
+*.toml  text eol=lf
+*.txt   text eol=lf
+
+# 二进制：不要做任何转换
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.pdf   binary
+*.S9    binary
+*.bmp   binary
+
+# 统计时不要把 HTML/文档算进语言占比
+docs/manual-raw.txt linguist-vendored
+config/templates/*  linguist-vendored

@@ -1,0 +1,62 @@
+{
+ "meta": {
+  "what": "命令界面（執行武將 / 執行 / 中止 这一套）的 UI 元素坐标",
+  "coords": "客户区 1280x960 物理坐标（屏幕截图坐标系，纯减法）",
+  "how": "定位子agent 用 OCR 文字框中心 + 颜色掩码连通块质心 量出；主 agent 人工核对标记图通过",
+  "evidence": "C:\\Users\\luj05\\san9ai\\explore\\cmd_ui_marked.png",
+  "when": "2026-09-18",
+  "state": "基于「開墾」命令界面（184年2月上旬 南皮）",
+  "status": "verified",
+  "note": "按钮类元素用**按钮外框中心**而不是文字中心（#7 灰块被白字打断，质心偏左 6px）"
+ },
+ "elements": {
+  "exec_officers_tab": [
+   410,
+   366
+  ],
+  "col_officer": [
+   530,
+   370
+  ],
+  "col_politics": [
+   620,
+   370
+  ],
+  "lbl_gold": [
+   410,
+   555
+  ],
+  "lbl_harvest": [
+   410,
+   605
+  ],
+  "lbl_food_income": [
+   410,
+   655
+  ],
+  "btn_execute": [
+   714,
+   725
+  ],
+  "btn_abort": [
+   827,
+   727
+  ],
+  "btn_help": [
+   906,
+   234
+  ],
+  "btn_close": [
+   943,
+   262
+  ]
+ },
+ "boxes": {
+  "officer_list": [
+   356,
+   387,
+   680,
+   545
+  ]
+ }
+}

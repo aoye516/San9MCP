@@ -1,0 +1,104 @@
+{
+  "turn.go": [
+    {
+      "kind": "click",
+      "xy": [
+        1220,
+        843
+      ],
+      "wait": 1.8,
+      "note": "點「進行」（锚点定位，不信任死坐标）",
+      "anchor": "go",
+      "anchor_screen": "strategy"
+    },
+    {
+      "kind": "click",
+      "xy": [
+        613,
+        513
+      ],
+      "wait": 2.5,
+      "note": "確認「是」（只在确认框真的出现时才点）",
+      "if_template": "templates/confirm_yes.jpg",
+      "hint": [
+        613,
+        513
+      ]
+    },
+    {
+      "kind": "wait_screen",
+      "screen": "strategy",
+      "timeout": 60
+    }
+  ],
+  "dialog.accept": [
+    {
+      "kind": "click",
+      "xy": [
+        706,
+        611
+      ],
+      "wait": 2.5,
+      "note": "允諾",
+      "template": "pick/event/tpl_yes.jpg",
+      "hint": [
+        706,
+        611
+      ]
+    }
+  ],
+  "dialog.reject": [
+    {
+      "kind": "click",
+      "xy": [
+        872,
+        611
+      ],
+      "wait": 2.5,
+      "note": "拒絕",
+      "template": "pick/event/tpl_no.jpg",
+      "hint": [
+        872,
+        611
+      ]
+    }
+  ],
+  "city.menu": [
+    {
+      "kind": "click",
+      "xy": "{city_xy}",
+      "wait": 1.6,
+      "note": "點都市 → 命令菜單"
+    },
+    {
+      "kind": "expect_change",
+      "min": 0.004
+    }
+  ],
+  "facility.open": [
+    {
+      "kind": "click",
+      "xy": "{city_xy}",
+      "wait": 1.6,
+      "note": "點都市"
+    },
+    {
+      "kind": "menu_item",
+      "which": "main",
+      "name": "設施",
+      "wait": 1.3,
+      "note": "主菜单:設施"
+    },
+    {
+      "kind": "menu_item",
+      "which": "sub",
+      "name": "{cmd}",
+      "wait": 2.2,
+      "note": "子菜单"
+    },
+    {
+      "kind": "expect_change",
+      "min": 0.004
+    }
+  ]
+}

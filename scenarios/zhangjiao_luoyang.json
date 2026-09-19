@@ -1,0 +1,18 @@
+{
+  "id": "zhangjiao_luoyang",
+  "title": "张角取洛阳",
+  "summary": "扮演黄巾军张角，占领东都洛阳。考验 AI 能否把有限的武将资源在「内政积累」和「早期扩张」之间做对分配——黄巾开局兵多但将差、信望低，硬冲洛阳必败。",
+  "start_save": "D_Sav000.S9",
+  "player_faction": "張角",
+  "objective": {
+    "type": "capture_city",
+    "city": "洛陽",
+    "deadline_turn": 120
+  },
+  "max_turns": 150,
+  "mode": "fair",
+  "allowed_ops": ["*"],
+  "forbidden_ops": ["game.edit", "save.rollback"],
+  "metrics": ["turns_used", "cities_held", "officers_alive", "soldiers", "prestige", "peak_deficit"],
+  "notes": "禁止读档重来：benchmark 要考的是单次决策质量，不是穷举。"
+}

@@ -1,0 +1,16 @@
+{
+  "main": {
+    "cx": 706,
+    "y0": 411,
+    "pitch": 33,
+    "search_r": 60
+  },
+  "sub": {
+    "cx": 800,
+    "y0": 408,
+    "pitch": 34,
+    "search_r": 60
+  },
+  "min_score": 0.88,
+  "max_drift": 14
+}

@@ -1,0 +1,37 @@
+{
+  "strategy": [
+    {
+      "name": "go",
+      "template": "templates/go.jpg",
+      "center": [
+        1212,
+        862
+      ],
+      "min_score": 0.75,
+      "required": true,
+      "identity": false
+    },
+    {
+      "name": "info",
+      "template": "templates/info.jpg",
+      "center": [
+        1132,
+        28
+      ],
+      "min_score": 0.75,
+      "required": false,
+      "identity": true
+    },
+    {
+      "name": "func",
+      "template": "templates/func.jpg",
+      "center": [
+        1218,
+        28
+      ],
+      "min_score": 0.75,
+      "required": false,
+      "identity": true
+    }
+  ]
+}

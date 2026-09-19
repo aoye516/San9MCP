@@ -1,0 +1,1952 @@
+{
+ "meta": {
+  "what": "三國志九全设施（185 個地域）的**繁體顯示名**候選表",
+  "use": "喂 `san9/namelock.py` 当候选表（`target_own_city` / `target_city`）",
+  "not_for": "⛔ 不含坐标、不含耐久/人口等数值 —— 本表只解决「名字」",
+  "source": "https://www.sanguogame.com.cn/special/san9/san9-p1.html （+ -p2.html）",
+  "source_lang": "简体",
+  "n": 185,
+  "type_counts": {
+   "都市": 45,
+   "异族": 4,
+   "港": 34,
+   "县": 93,
+   "关": 8,
+   "城塞": 1
+  },
+  "display_rule": {
+   "港": "地名 + 港（实测验证）",
+   "关": "地名原样（7/8 本身以「关」结尾；剑阁 例外待核）",
+   "都市/异族/城塞/县": "地名原样"
+  },
+  "tc_source": "Unicode Unihan kTraditionalVariant（往返校验）",
+  "tc_chars_used": 232,
+  "tc_chars_changed": [
+   {
+    "sc": "业",
+    "tc": "業"
+   },
+   {
+    "sc": "东",
+    "tc": "東"
+   },
+   {
+    "sc": "临",
+    "tc": "臨"
+   },
+   {
+    "sc": "乌",
+    "tc": "烏"
+   },
+   {
+    "sc": "乐",
+    "tc": "樂"
+   },
+   {
+    "sc": "云",
+    "tc": "雲"
+   },
+   {
+    "sc": "仓",
+    "tc": "倉"
+   },
+   {
+    "sc": "会",
+    "tc": "會"
+   },
+   {
+    "sc": "兖",
+    "tc": "兗"
+   },
+   {
+    "sc": "党",
+    "tc": "黨"
+   },
+   {
+    "sc": "兰",
+    "tc": "蘭"
+   },
+   {
+    "sc": "关",
+    "tc": "關"
+   },
+   {
+    "sc": "兴",
+    "tc": "興"
+   },
+   {
+    "sc": "内",
+    "tc": "內"
+   },
+   {
+    "sc": "军",
+    "tc": "軍"
+   },
+   {
+    "sc": "农",
+    "tc": "農"
+   },
+   {
+    "sc": "凉",
+    "tc": "涼"
+   },
+   {
+    "sc": "剑",
+    "tc": "劍"
+   },
+   {
+    "sc": "华",
+    "tc": "華"
+   },
+   {
+    "sc": "县",
+    "tc": "縣"
+   },
+   {
+    "sc": "吴",
+    "tc": "吳"
+   },
+   {
+    "sc": "壶",
+    "tc": "壺"
+   },
+   {
+    "sc": "宁",
+    "tc": "寧"
+   },
+   {
+    "sc": "寻",
+    "tc": "尋"
+   },
+   {
+    "sc": "寿",
+    "tc": "壽"
+   },
+   {
+    "sc": "带",
+    "tc": "帶"
+   },
+   {
+    "sc": "广",
+    "tc": "廣"
+   },
+   {
+    "sc": "庐",
+    "tc": "廬"
+   },
+   {
+    "sc": "异",
+    "tc": "異"
+   },
+   {
+    "sc": "张",
+    "tc": "張"
+   },
+   {
+    "sc": "扬",
+    "tc": "揚"
+   },
+   {
+    "sc": "晋",
+    "tc": "晉"
+   },
+   {
+    "sc": "桥",
+    "tc": "橋"
+   },
+   {
+    "sc": "汉",
+    "tc": "漢"
+   },
+   {
+    "sc": "渔",
+    "tc": "漁"
+   },
+   {
+    "sc": "温",
+    "tc": "溫"
+   },
+   {
+    "sc": "绵",
+    "tc": "綿"
+   },
+   {
+    "sc": "罗",
+    "tc": "羅"
+   },
+   {
+    "sc": "苍",
+    "tc": "蒼"
+   },
+   {
+    "sc": "荆",
+    "tc": "荊"
+   },
+   {
+    "sc": "莱",
+    "tc": "萊"
+   },
+   {
+    "sc": "蓟",
+    "tc": "薊"
+   },
+   {
+    "sc": "蛮",
+    "tc": "蠻"
+   },
+   {
+    "sc": "许",
+    "tc": "許"
+   },
+   {
+    "sc": "谯",
+    "tc": "譙"
+   },
+   {
+    "sc": "邺",
+    "tc": "鄴"
+   },
+   {
+    "sc": "长",
+    "tc": "長"
+   },
+   {
+    "sc": "门",
+    "tc": "門"
+   },
+   {
+    "sc": "间",
+    "tc": "間"
+   },
+   {
+    "sc": "阁",
+    "tc": "閣"
+   },
+   {
+    "sc": "阳",
+    "tc": "陽"
+   },
+   {
+    "sc": "阴",
+    "tc": "陰"
+   },
+   {
+    "sc": "陆",
+    "tc": "陸"
+   },
+   {
+    "sc": "陇",
+    "tc": "隴"
+   },
+   {
+    "sc": "陈",
+    "tc": "陳"
+   },
+   {
+    "sc": "隶",
+    "tc": "隸"
+   },
+   {
+    "sc": "顿",
+    "tc": "頓"
+   },
+   {
+    "sc": "颖",
+    "tc": "穎"
+   },
+   {
+    "sc": "马",
+    "tc": "馬"
+   },
+   {
+    "sc": "麦",
+    "tc": "麥"
+   }
+  ],
+  "tc_chars_rejected": [],
+  "frame_verified": {
+   "乐陵": "樂陵港",
+   "东莱": "東萊港",
+   "临淄": "臨淄港",
+   "南皮": "南皮",
+   "北海": "北海",
+   "平原": "平原"
+  },
+  "known_alternates": {
+   "建業": [
+    "秣陵"
+   ],
+   "_note": "同名不同期：184 年剧本里该城叫「秣陵」，212 年后才改「建業」。来源是攻略正文，**未经实测帧核对** ⇒ 未写进 aka。"
+  },
+  "status": "membership_unverified",
+  "status_note": "185 条来自外部攻略，未与游戏本体逐一核对（名字存字形内码，文件无明文，见 docs/04 §8.1）",
+  "tc_note": "⛔ 繁体形是 Unihan 推导所得；只有 `tc_verified=true` 的条目被实测帧核对过，其余**别当已确认**"
+ },
+ "facilities": [
+  {
+   "no": 1,
+   "name": "襄平",
+   "name_sc": "襄平",
+   "type": "都市",
+   "state": "幽州",
+   "city": "幽州",
+   "tc_verified": false
+  },
+  {
+   "no": 2,
+   "name": "北平",
+   "name_sc": "北平",
+   "type": "都市",
+   "state": "幽州",
+   "city": "幽州",
+   "tc_verified": false
+  },
+  {
+   "no": 3,
+   "name": "薊",
+   "name_sc": "蓟",
+   "type": "都市",
+   "state": "幽州",
+   "city": "幽州",
+   "tc_verified": false
+  },
+  {
+   "no": 4,
+   "name": "南皮",
+   "name_sc": "南皮",
+   "type": "都市",
+   "state": "冀州",
+   "city": "冀州",
+   "tc_verified": true
+  },
+  {
+   "no": 5,
+   "name": "平原",
+   "name_sc": "平原",
+   "type": "都市",
+   "state": "冀州",
+   "city": "冀州",
+   "tc_verified": true
+  },
+  {
+   "no": 6,
+   "name": "鄴",
+   "name_sc": "邺",
+   "type": "都市",
+   "state": "冀州",
+   "city": "冀州",
+   "tc_verified": false
+  },
+  {
+   "no": 7,
+   "name": "晉陽",
+   "name_sc": "晋阳",
+   "type": "都市",
+   "state": "并州",
+   "city": "并州",
+   "tc_verified": false
+  },
+  {
+   "no": 8,
+   "name": "上黨",
+   "name_sc": "上党",
+   "type": "都市",
+   "state": "并州",
+   "city": "并州",
+   "tc_verified": false
+  },
+  {
+   "no": 9,
+   "name": "北海",
+   "name_sc": "北海",
+   "type": "都市",
+   "state": "青州",
+   "city": "青州",
+   "tc_verified": true
+  },
+  {
+   "no": 10,
+   "name": "濮陽",
+   "name_sc": "濮阳",
+   "type": "都市",
+   "state": "兗州",
+   "city": "兗州",
+   "tc_verified": false
+  },
+  {
+   "no": 11,
+   "name": "陳留",
+   "name_sc": "陈留",
+   "type": "都市",
+   "state": "兗州",
+   "city": "兗州",
+   "tc_verified": false
+  },
+  {
+   "no": 12,
+   "name": "下邳",
+   "name_sc": "下邳",
+   "type": "都市",
+   "state": "徐州",
+   "city": "徐州",
+   "tc_verified": false
+  },
+  {
+   "no": 13,
+   "name": "小沛",
+   "name_sc": "小沛",
+   "type": "都市",
+   "state": "徐州",
+   "city": "徐州",
+   "tc_verified": false
+  },
+  {
+   "no": 14,
+   "name": "許昌",
+   "name_sc": "许昌",
+   "type": "都市",
+   "state": "豫州",
+   "city": "豫州",
+   "tc_verified": false
+  },
+  {
+   "no": 15,
+   "name": "汝南",
+   "name_sc": "汝南",
+   "type": "都市",
+   "state": "豫州",
+   "city": "豫州",
+   "tc_verified": false
+  },
+  {
+   "no": 16,
+   "name": "洛陽",
+   "name_sc": "洛阳",
+   "type": "都市",
+   "state": "司隸",
+   "city": "司隸",
+   "tc_verified": false
+  },
+  {
+   "no": 17,
+   "name": "長安",
+   "name_sc": "长安",
+   "type": "都市",
+   "state": "雍州",
+   "city": "雍州",
+   "tc_verified": false
+  },
+  {
+   "no": 18,
+   "name": "安定",
+   "name_sc": "安定",
+   "type": "都市",
+   "state": "雍州",
+   "city": "雍州",
+   "tc_verified": false
+  },
+  {
+   "no": 19,
+   "name": "天水",
+   "name_sc": "天水",
+   "type": "都市",
+   "state": "雍州",
+   "city": "雍州",
+   "tc_verified": false
+  },
+  {
+   "no": 20,
+   "name": "西平",
+   "name_sc": "西平",
+   "type": "都市",
+   "state": "涼州",
+   "city": "涼州",
+   "tc_verified": false
+  },
+  {
+   "no": 21,
+   "name": "武威",
+   "name_sc": "武威",
+   "type": "都市",
+   "state": "涼州",
+   "city": "涼州",
+   "tc_verified": false
+  },
+  {
+   "no": 22,
+   "name": "壽春",
+   "name_sc": "寿春",
+   "type": "都市",
+   "state": "揚州",
+   "city": "揚州",
+   "tc_verified": false
+  },
+  {
+   "no": 23,
+   "name": "廬江",
+   "name_sc": "庐江",
+   "type": "都市",
+   "state": "揚州",
+   "city": "揚州",
+   "tc_verified": false
+  },
+  {
+   "no": 24,
+   "name": "建業",
+   "name_sc": "建业",
+   "type": "都市",
+   "state": "揚州",
+   "city": "揚州",
+   "tc_verified": false
+  },
+  {
+   "no": 25,
+   "name": "吳",
+   "name_sc": "吴",
+   "type": "都市",
+   "state": "揚州",
+   "city": "揚州",
+   "tc_verified": false
+  },
+  {
+   "no": 26,
+   "name": "會稽",
+   "name_sc": "会稽",
+   "type": "都市",
+   "state": "揚州",
+   "city": "揚州",
+   "tc_verified": false
+  },
+  {
+   "no": 27,
+   "name": "柴桑",
+   "name_sc": "柴桑",
+   "type": "都市",
+   "state": "揚州",
+   "city": "揚州",
+   "tc_verified": false
+  },
+  {
+   "no": 28,
+   "name": "宛",
+   "name_sc": "宛",
+   "type": "都市",
+   "state": "荊州",
+   "city": "荊州",
+   "tc_verified": false
+  },
+  {
+   "no": 29,
+   "name": "新野",
+   "name_sc": "新野",
+   "type": "都市",
+   "state": "荊州",
+   "city": "荊州",
+   "tc_verified": false
+  },
+  {
+   "no": 30,
+   "name": "襄陽",
+   "name_sc": "襄阳",
+   "type": "都市",
+   "state": "荊州",
+   "city": "荊州",
+   "tc_verified": false
+  },
+  {
+   "no": 31,
+   "name": "江陵",
+   "name_sc": "江陵",
+   "type": "都市",
+   "state": "荊州",
+   "city": "荊州",
+   "tc_verified": false
+  },
+  {
+   "no": 32,
+   "name": "江夏",
+   "name_sc": "江夏",
+   "type": "都市",
+   "state": "荊州",
+   "city": "荊州",
+   "tc_verified": false
+  },
+  {
+   "no": 33,
+   "name": "長沙",
+   "name_sc": "长沙",
+   "type": "都市",
+   "state": "荊州",
+   "city": "荊州",
+   "tc_verified": false
+  },
+  {
+   "no": 34,
+   "name": "武陵",
+   "name_sc": "武陵",
+   "type": "都市",
+   "state": "荊州",
+   "city": "荊州",
+   "tc_verified": false
+  },
+  {
+   "no": 35,
+   "name": "桂陽",
+   "name_sc": "桂阳",
+   "type": "都市",
+   "state": "荊州",
+   "city": "荊州",
+   "tc_verified": false
+  },
+  {
+   "no": 36,
+   "name": "零陵",
+   "name_sc": "零陵",
+   "type": "都市",
+   "state": "荊州",
+   "city": "荊州",
+   "tc_verified": false
+  },
+  {
+   "no": 37,
+   "name": "西城",
+   "name_sc": "西城",
+   "type": "都市",
+   "state": "荊州",
+   "city": "荊州",
+   "tc_verified": false
+  },
+  {
+   "no": 38,
+   "name": "永安",
+   "name_sc": "永安",
+   "type": "都市",
+   "state": "益州",
+   "city": "益州",
+   "tc_verified": false
+  },
+  {
+   "no": 39,
+   "name": "漢中",
+   "name_sc": "汉中",
+   "type": "都市",
+   "state": "益州",
+   "city": "益州",
+   "tc_verified": false
+  },
+  {
+   "no": 40,
+   "name": "梓潼",
+   "name_sc": "梓潼",
+   "type": "都市",
+   "state": "益州",
+   "city": "益州",
+   "tc_verified": false
+  },
+  {
+   "no": 41,
+   "name": "成都",
+   "name_sc": "成都",
+   "type": "都市",
+   "state": "益州",
+   "city": "益州",
+   "tc_verified": false
+  },
+  {
+   "no": 42,
+   "name": "江州",
+   "name_sc": "江州",
+   "type": "都市",
+   "state": "益州",
+   "city": "益州",
+   "tc_verified": false
+  },
+  {
+   "no": 43,
+   "name": "建寧",
+   "name_sc": "建宁",
+   "type": "都市",
+   "state": "益州",
+   "city": "益州",
+   "tc_verified": false
+  },
+  {
+   "no": 44,
+   "name": "雲南",
+   "name_sc": "云南",
+   "type": "都市",
+   "state": "益州",
+   "city": "益州",
+   "tc_verified": false
+  },
+  {
+   "no": 45,
+   "name": "交趾",
+   "name_sc": "交趾",
+   "type": "都市",
+   "state": "交州",
+   "city": "交州",
+   "tc_verified": false
+  },
+  {
+   "no": 46,
+   "name": "烏丸",
+   "name_sc": "乌丸",
+   "type": "异族",
+   "state": "異族",
+   "city": "異族",
+   "tc_verified": false
+  },
+  {
+   "no": 47,
+   "name": "羌",
+   "name_sc": "羌",
+   "type": "异族",
+   "state": "異族",
+   "city": "異族",
+   "tc_verified": false
+  },
+  {
+   "no": 48,
+   "name": "山越",
+   "name_sc": "山越",
+   "type": "异族",
+   "state": "異族",
+   "city": "異族",
+   "tc_verified": false
+  },
+  {
+   "no": 49,
+   "name": "南蠻",
+   "name_sc": "南蛮",
+   "type": "异族",
+   "state": "異族",
+   "city": "異族",
+   "tc_verified": false
+  },
+  {
+   "no": 50,
+   "name": "帶方港",
+   "name_sc": "带方",
+   "type": "港",
+   "state": "幽州",
+   "city": "襄平",
+   "tc_verified": false
+  },
+  {
+   "no": 51,
+   "name": "樂浪",
+   "name_sc": "乐浪",
+   "type": "县",
+   "state": "幽州",
+   "city": "襄平",
+   "tc_verified": false
+  },
+  {
+   "no": 52,
+   "name": "丸都",
+   "name_sc": "丸都",
+   "type": "县",
+   "state": "幽州",
+   "city": "襄平",
+   "tc_verified": false
+  },
+  {
+   "no": 53,
+   "name": "昌黎",
+   "name_sc": "昌黎",
+   "type": "县",
+   "state": "幽州",
+   "city": "襄平",
+   "tc_verified": false
+  },
+  {
+   "no": 54,
+   "name": "安平港",
+   "name_sc": "安平",
+   "type": "港",
+   "state": "幽州",
+   "city": "襄平",
+   "tc_verified": false
+  },
+  {
+   "no": 55,
+   "name": "柳城",
+   "name_sc": "柳城",
+   "type": "县",
+   "state": "幽州",
+   "city": "北平",
+   "tc_verified": false
+  },
+  {
+   "no": 56,
+   "name": "易京",
+   "name_sc": "易京",
+   "type": "县",
+   "state": "幽州",
+   "city": "北平",
+   "tc_verified": false
+  },
+  {
+   "no": 57,
+   "name": "漁陽",
+   "name_sc": "渔阳",
+   "type": "县",
+   "state": "幽州",
+   "city": "薊",
+   "tc_verified": false
+  },
+  {
+   "no": 58,
+   "name": "代縣",
+   "name_sc": "代县",
+   "type": "县",
+   "state": "幽州",
+   "city": "薊",
+   "tc_verified": false
+  },
+  {
+   "no": 59,
+   "name": "涿縣",
+   "name_sc": "涿县",
+   "type": "县",
+   "state": "幽州",
+   "city": "薊",
+   "tc_verified": false
+  },
+  {
+   "no": 60,
+   "name": "河間",
+   "name_sc": "河间",
+   "type": "县",
+   "state": "冀州",
+   "city": "南皮",
+   "tc_verified": false
+  },
+  {
+   "no": 61,
+   "name": "樂陵港",
+   "name_sc": "乐陵",
+   "type": "港",
+   "state": "冀州",
+   "city": "南皮",
+   "tc_verified": true
+  },
+  {
+   "no": 62,
+   "name": "界橋",
+   "name_sc": "界桥",
+   "type": "县",
+   "state": "冀州",
+   "city": "南皮",
+   "tc_verified": false
+  },
+  {
+   "no": 63,
+   "name": "清河",
+   "name_sc": "清河",
+   "type": "县",
+   "state": "冀州",
+   "city": "平原",
+   "tc_verified": false
+  },
+  {
+   "no": 64,
+   "name": "安德港",
+   "name_sc": "安德",
+   "type": "港",
+   "state": "冀州",
+   "city": "平原",
+   "tc_verified": false
+  },
+  {
+   "no": 65,
+   "name": "頓丘",
+   "name_sc": "顿丘",
+   "type": "县",
+   "state": "冀州",
+   "city": "平原",
+   "tc_verified": false
+  },
+  {
+   "no": 66,
+   "name": "高唐港",
+   "name_sc": "高唐",
+   "type": "港",
+   "state": "冀州",
+   "city": "平原",
+   "tc_verified": false
+  },
+  {
+   "no": 67,
+   "name": "巨鹿",
+   "name_sc": "巨鹿",
+   "type": "县",
+   "state": "冀州",
+   "city": "鄴",
+   "tc_verified": false
+  },
+  {
+   "no": 68,
+   "name": "常山",
+   "name_sc": "常山",
+   "type": "县",
+   "state": "冀州",
+   "city": "鄴",
+   "tc_verified": false
+  },
+  {
+   "no": 69,
+   "name": "白馬港",
+   "name_sc": "白马",
+   "type": "港",
+   "state": "冀州",
+   "city": "鄴",
+   "tc_verified": false
+  },
+  {
+   "no": 70,
+   "name": "雁門",
+   "name_sc": "雁门",
+   "type": "县",
+   "state": "并州",
+   "city": "晉陽",
+   "tc_verified": false
+  },
+  {
+   "no": 71,
+   "name": "太原",
+   "name_sc": "太原",
+   "type": "县",
+   "state": "并州",
+   "city": "晉陽",
+   "tc_verified": false
+  },
+  {
+   "no": 72,
+   "name": "襄坦",
+   "name_sc": "襄坦",
+   "type": "县",
+   "state": "并州",
+   "city": "晉陽",
+   "tc_verified": false
+  },
+  {
+   "no": 73,
+   "name": "西河",
+   "name_sc": "西河",
+   "type": "县",
+   "state": "并州",
+   "city": "上黨",
+   "tc_verified": false
+  },
+  {
+   "no": 74,
+   "name": "壺關",
+   "name_sc": "壶关",
+   "type": "关",
+   "state": "并州",
+   "city": "上黨",
+   "tc_verified": false
+  },
+  {
+   "no": 75,
+   "name": "長子",
+   "name_sc": "长子",
+   "type": "县",
+   "state": "并州",
+   "city": "上黨",
+   "tc_verified": false
+  },
+  {
+   "no": 76,
+   "name": "東萊港",
+   "name_sc": "东莱",
+   "type": "港",
+   "state": "青州",
+   "city": "北海",
+   "tc_verified": true
+  },
+  {
+   "no": 77,
+   "name": "即墨",
+   "name_sc": "即墨",
+   "type": "县",
+   "state": "青州",
+   "city": "北海",
+   "tc_verified": false
+  },
+  {
+   "no": 78,
+   "name": "臨淄港",
+   "name_sc": "临淄",
+   "type": "港",
+   "state": "青州",
+   "city": "北海",
+   "tc_verified": true
+  },
+  {
+   "no": 79,
+   "name": "東武港",
+   "name_sc": "东武",
+   "type": "港",
+   "state": "青州",
+   "city": "北海",
+   "tc_verified": false
+  },
+  {
+   "no": 80,
+   "name": "東阿港",
+   "name_sc": "东阿",
+   "type": "港",
+   "state": "兗州",
+   "city": "濮陽",
+   "tc_verified": false
+  },
+  {
+   "no": 81,
+   "name": "東平",
+   "name_sc": "东平",
+   "type": "县",
+   "state": "兗州",
+   "city": "濮陽",
+   "tc_verified": false
+  },
+  {
+   "no": 82,
+   "name": "泰山",
+   "name_sc": "泰山",
+   "type": "县",
+   "state": "兗州",
+   "city": "濮陽",
+   "tc_verified": false
+  },
+  {
+   "no": 83,
+   "name": "定陶",
+   "name_sc": "定陶",
+   "type": "县",
+   "state": "兗州",
+   "city": "陳留",
+   "tc_verified": false
+  },
+  {
+   "no": 84,
+   "name": "任城",
+   "name_sc": "任城",
+   "type": "县",
+   "state": "兗州",
+   "city": "陳留",
+   "tc_verified": false
+  },
+  {
+   "no": 85,
+   "name": "廣陵港",
+   "name_sc": "广陵",
+   "type": "港",
+   "state": "徐州",
+   "city": "下邳",
+   "tc_verified": false
+  },
+  {
+   "no": 86,
+   "name": "琅玡",
+   "name_sc": "琅玡",
+   "type": "县",
+   "state": "徐州",
+   "city": "下邳",
+   "tc_verified": false
+  },
+  {
+   "no": 87,
+   "name": "淮陰",
+   "name_sc": "淮阴",
+   "type": "县",
+   "state": "徐州",
+   "city": "下邳",
+   "tc_verified": false
+  },
+  {
+   "no": 88,
+   "name": "彭城",
+   "name_sc": "彭城",
+   "type": "县",
+   "state": "徐州",
+   "city": "小沛",
+   "tc_verified": false
+  },
+  {
+   "no": 89,
+   "name": "中牟",
+   "name_sc": "中牟",
+   "type": "县",
+   "state": "豫州",
+   "city": "許昌",
+   "tc_verified": false
+  },
+  {
+   "no": 90,
+   "name": "穎川",
+   "name_sc": "颖川",
+   "type": "县",
+   "state": "豫州",
+   "city": "許昌",
+   "tc_verified": false
+  },
+  {
+   "no": 91,
+   "name": "譙縣",
+   "name_sc": "谯县",
+   "type": "县",
+   "state": "豫州",
+   "city": "汝南",
+   "tc_verified": false
+  },
+  {
+   "no": 92,
+   "name": "宋縣",
+   "name_sc": "宋县",
+   "type": "县",
+   "state": "豫州",
+   "city": "汝南",
+   "tc_verified": false
+  },
+  {
+   "no": 93,
+   "name": "陽安",
+   "name_sc": "阳安",
+   "type": "县",
+   "state": "豫州",
+   "city": "汝南",
+   "tc_verified": false
+  },
+  {
+   "no": 94,
+   "name": "朝歌",
+   "name_sc": "朝歌",
+   "type": "县",
+   "state": "司隸",
+   "city": "洛陽",
+   "tc_verified": false
+  },
+  {
+   "no": 95,
+   "name": "河內港",
+   "name_sc": "河内",
+   "type": "港",
+   "state": "司隸",
+   "city": "洛陽",
+   "tc_verified": false
+  },
+  {
+   "no": 96,
+   "name": "平陽港",
+   "name_sc": "平阳",
+   "type": "港",
+   "state": "司隸",
+   "city": "洛陽",
+   "tc_verified": false
+  },
+  {
+   "no": 97,
+   "name": "河東港",
+   "name_sc": "河东",
+   "type": "港",
+   "state": "司隸",
+   "city": "洛陽",
+   "tc_verified": false
+  },
+  {
+   "no": 98,
+   "name": "官渡港",
+   "name_sc": "官渡",
+   "type": "港",
+   "state": "司隸",
+   "city": "洛陽",
+   "tc_verified": false
+  },
+  {
+   "no": 99,
+   "name": "虎牢關",
+   "name_sc": "虎牢关",
+   "type": "关",
+   "state": "司隸",
+   "city": "洛陽",
+   "tc_verified": false
+  },
+  {
+   "no": 100,
+   "name": "孟津港",
+   "name_sc": "孟津",
+   "type": "港",
+   "state": "司隸",
+   "city": "洛陽",
+   "tc_verified": false
+  },
+  {
+   "no": 101,
+   "name": "弘農",
+   "name_sc": "弘农",
+   "type": "县",
+   "state": "司隸",
+   "city": "洛陽",
+   "tc_verified": false
+  },
+  {
+   "no": 102,
+   "name": "河南",
+   "name_sc": "河南",
+   "type": "县",
+   "state": "司隸",
+   "city": "洛陽",
+   "tc_verified": false
+  },
+  {
+   "no": 103,
+   "name": "臨晉",
+   "name_sc": "临晋",
+   "type": "县",
+   "state": "雍州",
+   "city": "長安",
+   "tc_verified": false
+  },
+  {
+   "no": 104,
+   "name": "潼關",
+   "name_sc": "潼关",
+   "type": "关",
+   "state": "雍州",
+   "city": "長安",
+   "tc_verified": false
+  },
+  {
+   "no": 105,
+   "name": "商縣",
+   "name_sc": "商县",
+   "type": "县",
+   "state": "雍州",
+   "city": "長安",
+   "tc_verified": false
+  },
+  {
+   "no": 106,
+   "name": "武關",
+   "name_sc": "武关",
+   "type": "关",
+   "state": "雍州",
+   "city": "長安",
+   "tc_verified": false
+  },
+  {
+   "no": 107,
+   "name": "郿",
+   "name_sc": "郿",
+   "type": "城塞",
+   "state": "雍州",
+   "city": "長安",
+   "tc_verified": false
+  },
+  {
+   "no": 108,
+   "name": "子午谷",
+   "name_sc": "子午谷",
+   "type": "县",
+   "state": "雍州",
+   "city": "長安",
+   "tc_verified": false
+  },
+  {
+   "no": 109,
+   "name": "陳倉",
+   "name_sc": "陈仓",
+   "type": "县",
+   "state": "雍州",
+   "city": "安定",
+   "tc_verified": false
+  },
+  {
+   "no": 110,
+   "name": "五丈原",
+   "name_sc": "五丈原",
+   "type": "县",
+   "state": "雍州",
+   "city": "安定",
+   "tc_verified": false
+  },
+  {
+   "no": 111,
+   "name": "街亭",
+   "name_sc": "街亭",
+   "type": "县",
+   "state": "雍州",
+   "city": "天水",
+   "tc_verified": false
+  },
+  {
+   "no": 112,
+   "name": "段谷",
+   "name_sc": "段谷",
+   "type": "县",
+   "state": "雍州",
+   "city": "天水",
+   "tc_verified": false
+  },
+  {
+   "no": 113,
+   "name": "隴西",
+   "name_sc": "陇西",
+   "type": "县",
+   "state": "雍州",
+   "city": "天水",
+   "tc_verified": false
+  },
+  {
+   "no": 114,
+   "name": "狄道",
+   "name_sc": "狄道",
+   "type": "县",
+   "state": "涼州",
+   "city": "西平",
+   "tc_verified": false
+  },
+  {
+   "no": 115,
+   "name": "金城",
+   "name_sc": "金城",
+   "type": "县",
+   "state": "涼州",
+   "city": "西平",
+   "tc_verified": false
+  },
+  {
+   "no": 116,
+   "name": "令居",
+   "name_sc": "令居",
+   "type": "县",
+   "state": "涼州",
+   "city": "武威",
+   "tc_verified": false
+  },
+  {
+   "no": 117,
+   "name": "張掖",
+   "name_sc": "张掖",
+   "type": "县",
+   "state": "涼州",
+   "city": "武威",
+   "tc_verified": false
+  },
+  {
+   "no": 118,
+   "name": "酒泉",
+   "name_sc": "酒泉",
+   "type": "县",
+   "state": "涼州",
+   "city": "武威",
+   "tc_verified": false
+  },
+  {
+   "no": 119,
+   "name": "合淝",
+   "name_sc": "合淝",
+   "type": "县",
+   "state": "揚州",
+   "city": "壽春",
+   "tc_verified": false
+  },
+  {
+   "no": 120,
+   "name": "烏江港",
+   "name_sc": "乌江",
+   "type": "港",
+   "state": "揚州",
+   "city": "壽春",
+   "tc_verified": false
+  },
+  {
+   "no": 121,
+   "name": "石亭",
+   "name_sc": "石亭",
+   "type": "县",
+   "state": "揚州",
+   "city": "廬江",
+   "tc_verified": false
+  },
+  {
+   "no": 122,
+   "name": "尋陽港",
+   "name_sc": "寻阳",
+   "type": "港",
+   "state": "揚州",
+   "city": "廬江",
+   "tc_verified": false
+  },
+  {
+   "no": 123,
+   "name": "阜陵港",
+   "name_sc": "阜陵",
+   "type": "港",
+   "state": "揚州",
+   "city": "建業",
+   "tc_verified": false
+  },
+  {
+   "no": 124,
+   "name": "丹陽",
+   "name_sc": "丹阳",
+   "type": "县",
+   "state": "揚州",
+   "city": "建業",
+   "tc_verified": false
+  },
+  {
+   "no": 125,
+   "name": "曲阿港",
+   "name_sc": "曲阿",
+   "type": "港",
+   "state": "揚州",
+   "city": "吳",
+   "tc_verified": false
+  },
+  {
+   "no": 126,
+   "name": "章安港",
+   "name_sc": "章安",
+   "type": "港",
+   "state": "揚州",
+   "city": "會稽",
+   "tc_verified": false
+  },
+  {
+   "no": 127,
+   "name": "始新",
+   "name_sc": "始新",
+   "type": "县",
+   "state": "揚州",
+   "city": "會稽",
+   "tc_verified": false
+  },
+  {
+   "no": 128,
+   "name": "建安",
+   "name_sc": "建安",
+   "type": "县",
+   "state": "揚州",
+   "city": "會稽",
+   "tc_verified": false
+  },
+  {
+   "no": 129,
+   "name": "九江港",
+   "name_sc": "九江",
+   "type": "港",
+   "state": "揚州",
+   "city": "柴桑",
+   "tc_verified": false
+  },
+  {
+   "no": 130,
+   "name": "武昌",
+   "name_sc": "武昌",
+   "type": "县",
+   "state": "揚州",
+   "city": "柴桑",
+   "tc_verified": false
+  },
+  {
+   "no": 131,
+   "name": "鄱陽港",
+   "name_sc": "鄱阳",
+   "type": "港",
+   "state": "揚州",
+   "city": "柴桑",
+   "tc_verified": false
+  },
+  {
+   "no": 132,
+   "name": "南昌",
+   "name_sc": "南昌",
+   "type": "县",
+   "state": "揚州",
+   "city": "柴桑",
+   "tc_verified": false
+  },
+  {
+   "no": 133,
+   "name": "高昌",
+   "name_sc": "高昌",
+   "type": "县",
+   "state": "揚州",
+   "city": "柴桑",
+   "tc_verified": false
+  },
+  {
+   "no": 134,
+   "name": "陸口港",
+   "name_sc": "陆口",
+   "type": "港",
+   "state": "揚州",
+   "city": "柴桑",
+   "tc_verified": false
+  },
+  {
+   "no": 135,
+   "name": "穣縣",
+   "name_sc": "穣县",
+   "type": "县",
+   "state": "荊州",
+   "city": "宛",
+   "tc_verified": false
+  },
+  {
+   "no": 136,
+   "name": "博望",
+   "name_sc": "博望",
+   "type": "县",
+   "state": "荊州",
+   "city": "宛",
+   "tc_verified": false
+  },
+  {
+   "no": 137,
+   "name": "湖陽港",
+   "name_sc": "湖阳",
+   "type": "港",
+   "state": "荊州",
+   "city": "新野",
+   "tc_verified": false
+  },
+  {
+   "no": 138,
+   "name": "隆中港",
+   "name_sc": "隆中",
+   "type": "港",
+   "state": "荊州",
+   "city": "新野",
+   "tc_verified": false
+  },
+  {
+   "no": 139,
+   "name": "漢津港",
+   "name_sc": "汉津",
+   "type": "港",
+   "state": "荊州",
+   "city": "襄陽",
+   "tc_verified": false
+  },
+  {
+   "no": 140,
+   "name": "新城",
+   "name_sc": "新城",
+   "type": "县",
+   "state": "荊州",
+   "city": "襄陽",
+   "tc_verified": false
+  },
+  {
+   "no": 141,
+   "name": "麥城",
+   "name_sc": "麦城",
+   "type": "县",
+   "state": "荊州",
+   "city": "江陵",
+   "tc_verified": false
+  },
+  {
+   "no": 142,
+   "name": "華容",
+   "name_sc": "华容",
+   "type": "县",
+   "state": "荊州",
+   "city": "江陵",
+   "tc_verified": false
+  },
+  {
+   "no": 143,
+   "name": "烏林港",
+   "name_sc": "乌林",
+   "type": "港",
+   "state": "荊州",
+   "city": "江陵",
+   "tc_verified": false
+  },
+  {
+   "no": 144,
+   "name": "宜都",
+   "name_sc": "宜都",
+   "type": "县",
+   "state": "荊州",
+   "city": "江陵",
+   "tc_verified": false
+  },
+  {
+   "no": 145,
+   "name": "夷陵",
+   "name_sc": "夷陵",
+   "type": "县",
+   "state": "荊州",
+   "city": "江陵",
+   "tc_verified": false
+  },
+  {
+   "no": 146,
+   "name": "江津港",
+   "name_sc": "江津",
+   "type": "港",
+   "state": "荊州",
+   "city": "江陵",
+   "tc_verified": false
+  },
+  {
+   "no": 147,
+   "name": "公安港",
+   "name_sc": "公安",
+   "type": "港",
+   "state": "荊州",
+   "city": "江陵",
+   "tc_verified": false
+  },
+  {
+   "no": 148,
+   "name": "安陸",
+   "name_sc": "安陆",
+   "type": "县",
+   "state": "荊州",
+   "city": "江夏",
+   "tc_verified": false
+  },
+  {
+   "no": 149,
+   "name": "夏口港",
+   "name_sc": "夏口",
+   "type": "港",
+   "state": "荊州",
+   "city": "江夏",
+   "tc_verified": false
+  },
+  {
+   "no": 150,
+   "name": "汨羅",
+   "name_sc": "汨罗",
+   "type": "县",
+   "state": "荊州",
+   "city": "長沙",
+   "tc_verified": false
+  },
+  {
+   "no": 151,
+   "name": "衡陽",
+   "name_sc": "衡阳",
+   "type": "县",
+   "state": "荊州",
+   "city": "武陵",
+   "tc_verified": false
+  },
+  {
+   "no": 152,
+   "name": "魏興",
+   "name_sc": "魏兴",
+   "type": "县",
+   "state": "荊州",
+   "city": "西城",
+   "tc_verified": false
+  },
+  {
+   "no": 153,
+   "name": "上庸港",
+   "name_sc": "上庸",
+   "type": "港",
+   "state": "荊州",
+   "city": "西城",
+   "tc_verified": false
+  },
+  {
+   "no": 154,
+   "name": "安陽港",
+   "name_sc": "安阳",
+   "type": "港",
+   "state": "荊州",
+   "city": "西城",
+   "tc_verified": false
+  },
+  {
+   "no": 155,
+   "name": "巫縣港",
+   "name_sc": "巫县",
+   "type": "港",
+   "state": "益州",
+   "city": "永安",
+   "tc_verified": false
+  },
+  {
+   "no": 156,
+   "name": "陽平關",
+   "name_sc": "阳平关",
+   "type": "关",
+   "state": "益州",
+   "city": "漢中",
+   "tc_verified": false
+  },
+  {
+   "no": 157,
+   "name": "定軍山",
+   "name_sc": "定军山",
+   "type": "县",
+   "state": "益州",
+   "city": "漢中",
+   "tc_verified": false
+  },
+  {
+   "no": 158,
+   "name": "武都",
+   "name_sc": "武都",
+   "type": "县",
+   "state": "益州",
+   "city": "漢中",
+   "tc_verified": false
+  },
+  {
+   "no": 159,
+   "name": "沓中",
+   "name_sc": "沓中",
+   "type": "县",
+   "state": "益州",
+   "city": "漢中",
+   "tc_verified": false
+  },
+  {
+   "no": 160,
+   "name": "陰平",
+   "name_sc": "阴平",
+   "type": "县",
+   "state": "益州",
+   "city": "漢中",
+   "tc_verified": false
+  },
+  {
+   "no": 161,
+   "name": "白水",
+   "name_sc": "白水",
+   "type": "县",
+   "state": "益州",
+   "city": "梓潼",
+   "tc_verified": false
+  },
+  {
+   "no": 162,
+   "name": "葭萌關",
+   "name_sc": "葭萌关",
+   "type": "关",
+   "state": "益州",
+   "city": "梓潼",
+   "tc_verified": false
+  },
+  {
+   "no": 163,
+   "name": "劍閣",
+   "name_sc": "剑阁",
+   "type": "关",
+   "state": "益州",
+   "city": "梓潼",
+   "tc_verified": false
+  },
+  {
+   "no": 164,
+   "name": "漢壽",
+   "name_sc": "汉寿",
+   "type": "县",
+   "state": "益州",
+   "city": "梓潼",
+   "tc_verified": false
+  },
+  {
+   "no": 165,
+   "name": "巴西",
+   "name_sc": "巴西",
+   "type": "县",
+   "state": "益州",
+   "city": "梓潼",
+   "tc_verified": false
+  },
+  {
+   "no": 166,
+   "name": "漢昌",
+   "name_sc": "汉昌",
+   "type": "县",
+   "state": "益州",
+   "city": "梓潼",
+   "tc_verified": false
+  },
+  {
+   "no": 167,
+   "name": "江油",
+   "name_sc": "江油",
+   "type": "县",
+   "state": "益州",
+   "city": "梓潼",
+   "tc_verified": false
+  },
+  {
+   "no": 168,
+   "name": "廣柔",
+   "name_sc": "广柔",
+   "type": "县",
+   "state": "益州",
+   "city": "梓潼",
+   "tc_verified": false
+  },
+  {
+   "no": 169,
+   "name": "綿竹",
+   "name_sc": "绵竹",
+   "type": "县",
+   "state": "益州",
+   "city": "成都",
+   "tc_verified": false
+  },
+  {
+   "no": 170,
+   "name": "都安",
+   "name_sc": "都安",
+   "type": "县",
+   "state": "益州",
+   "city": "成都",
+   "tc_verified": false
+  },
+  {
+   "no": 171,
+   "name": "涪水關",
+   "name_sc": "涪水关",
+   "type": "关",
+   "state": "益州",
+   "city": "成都",
+   "tc_verified": false
+  },
+  {
+   "no": 172,
+   "name": "峨眉",
+   "name_sc": "峨眉",
+   "type": "县",
+   "state": "益州",
+   "city": "成都",
+   "tc_verified": false
+  },
+  {
+   "no": 173,
+   "name": "廣漢",
+   "name_sc": "广汉",
+   "type": "县",
+   "state": "益州",
+   "city": "成都",
+   "tc_verified": false
+  },
+  {
+   "no": 174,
+   "name": "臨江",
+   "name_sc": "临江",
+   "type": "县",
+   "state": "益州",
+   "city": "江州",
+   "tc_verified": false
+  },
+  {
+   "no": 175,
+   "name": "江陽",
+   "name_sc": "江阳",
+   "type": "县",
+   "state": "益州",
+   "city": "江州",
+   "tc_verified": false
+  },
+  {
+   "no": 176,
+   "name": "朱提",
+   "name_sc": "朱提",
+   "type": "县",
+   "state": "益州",
+   "city": "建寧",
+   "tc_verified": false
+  },
+  {
+   "no": 177,
+   "name": "且蘭",
+   "name_sc": "且兰",
+   "type": "县",
+   "state": "益州",
+   "city": "建寧",
+   "tc_verified": false
+  },
+  {
+   "no": 178,
+   "name": "宛溫",
+   "name_sc": "宛温",
+   "type": "县",
+   "state": "益州",
+   "city": "建寧",
+   "tc_verified": false
+  },
+  {
+   "no": 179,
+   "name": "台登",
+   "name_sc": "台登",
+   "type": "县",
+   "state": "益州",
+   "city": "雲南",
+   "tc_verified": false
+  },
+  {
+   "no": 180,
+   "name": "永昌",
+   "name_sc": "永昌",
+   "type": "县",
+   "state": "益州",
+   "city": "雲南",
+   "tc_verified": false
+  },
+  {
+   "no": 181,
+   "name": "南海",
+   "name_sc": "南海",
+   "type": "县",
+   "state": "交州",
+   "city": "交趾",
+   "tc_verified": false
+  },
+  {
+   "no": 182,
+   "name": "蒼梧",
+   "name_sc": "苍梧",
+   "type": "县",
+   "state": "交州",
+   "city": "交趾",
+   "tc_verified": false
+  },
+  {
+   "no": 183,
+   "name": "合浦",
+   "name_sc": "合浦",
+   "type": "县",
+   "state": "交州",
+   "city": "交趾",
+   "tc_verified": false
+  },
+  {
+   "no": 184,
+   "name": "烏鼠山",
+   "name_sc": "乌鼠山",
+   "type": "县",
+   "state": "羌",
+   "city": "羌",
+   "tc_verified": false
+  },
+  {
+   "no": 185,
+   "name": "南城",
+   "name_sc": "南城",
+   "type": "县",
+   "state": "山越",
+   "city": "山越",
+   "tc_verified": false
+  }
+ ]
+}

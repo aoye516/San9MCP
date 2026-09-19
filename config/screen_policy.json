@@ -1,0 +1,15 @@
+{
+  "strategy": "ready",
+  "city_menu": "ready",
+  "progress": "busy",
+  "battle_report": "busy",
+  "event": "ask",
+  "envoy": "ask",
+  "advisor": "ask",
+  "duel": "busy",
+  "info": "menu",
+  "save_menu": "menu",
+  "main_menu": "menu",
+  "dialog": "ask",
+  "blocked": "ask"
+}

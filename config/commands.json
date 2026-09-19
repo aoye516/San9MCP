@@ -1,0 +1,675 @@
+{
+ "meta": {
+  "what": "都市命令菜单六类全部命令的目录（agent 用的能力清单）",
+  "facility_used": "平原（在任 4/4，条件最宽松）",
+  "in_game_date": "184年9月下旬",
+  "collected_at": "2026-09-18",
+  "how": "子agent：hover 选中主项 + 按 → 展开子菜单 + 目视抄名；颜色判读辅助",
+  "status": "unverified",
+  "caveat": "项序与可用性主要靠**目视**（子菜单名字 OCR 读不全）；已用『能读出的项名与清单一致』做弱复核；待程序化复核后转 verified",
+  "note_hover": "⛔ 悬停只换高亮，**不会展开子菜单**；必须再按 →（实测踩过）",
+  "note_scroll": "子菜单最长 8 项，一屏放得下；但**右侧设施列表一屏放不下**（14 行+底部按钮），要用键盘 ↓ 走",
+  "recon_2026_09_18": {
+   "what": "六菜单 35 条命令的输入要求全部读过界面并记录",
+   "how": "scripts/recon_cmd.py 逐条：开命令界面 → OCR 標題/底部提示/條件/效果 → 存图 → 关掉",
+   "evidence": "C:/Users/luj05/san9ai/explore/recon_all.json",
+   "shots": "C:/Users/luj05/san9ai/explore/R<menu>_<sub>_<cmd>.jpg",
+   "status": "unverified",
+   "caveat": "输入要求靠 OCR 读界面文字 + 目视核对截图；「1~5武将」这类是从已实测下达的 5 条設施命令反推的，★标记的「要选目标」是从底部提示判定的"
+  },
+  "last_verified_run": {
+   "date_in_game": "184年3月上旬（張角 信望180 資金16732 兵糧105670）",
+   "turns_run": "184年2月上旬开局 → 3月上旬"
+  }
+ },
+ "menus": {
+  "設施": {
+   "how": "eyeball+color",
+   "note": "颜色判读 cf=157(可用)/cf=1(置灰) 与目视一致；探测器多报 1 行(idx8, cf=76)但截图只有 8 项，判为杂讯",
+   "shot": "0_設施.jpg",
+   "items": [
+    {
+     "i": 0,
+     "name": "巡察",
+     "enabled_default": true,
+     "inputs": {
+      "need_officers": "1~5武将",
+      "need_target": "无",
+      "need_money": "人數×50",
+      "ability": "智力",
+      "note": "交戰/混亂中不可执行",
+      "source": "2026-09-18 全量界面侦察（scripts/recon_cmd.py）"
+     },
+     "verify": {
+      "signal": "民心",
+      "observed": "平原 552→592 (+40)，5 名武将"
+     },
+     "status": "verified",
+     "evidence": {
+      "shot": "C:/Users/luj05/san9ai/explore/atoms/001_issue0_巡察.jpg",
+      "run": "atoms.issue(0,'巡察') ok=True; 过旬后复读"
+     }
+    },
+    {
+     "i": 1,
+     "name": "商業",
+     "enabled_default": true,
+     "inputs": {
+      "need_officers": "1~5武将",
+      "need_target": "无",
+      "need_money": "人數×50",
+      "ability": "政治",
+      "note": "交戰/混亂中不可执行",
+      "source": "2026-09-18 全量界面侦察（scripts/recon_cmd.py）"
+     },
+     "verify": {
+      "signal": "收益",
+      "observed": "鄴 400/1000 → 426/1000 (+26)，4 名武将"
+     },
+     "status": "verified"
+    },
+    {
+     "i": 2,
+     "name": "開墾",
+     "enabled_default": true,
+     "inputs": {
+      "need_officers": "1~5武将",
+      "need_target": "无",
+      "need_money": "人數×50",
+      "ability": "政治",
+      "note": "交戰/混亂中不可执行",
+      "source": "2026-09-18 全量界面侦察（scripts/recon_cmd.py）"
+     },
+     "verify": {
+      "signal": "收穫",
+      "observed": "南皮已下达(4人×50=200資金已扣)，收穫待补读"
+     },
+     "status": "partial"
+    },
+    {
+     "i": 3,
+     "name": "修築",
+     "enabled_default": true,
+     "inputs": {
+      "need_officers": "1~5武将",
+      "need_target": "无",
+      "need_money": "人數×50",
+      "ability": "統率",
+      "note": "交戰/混亂中不可执行",
+      "source": "2026-09-18 全量界面侦察（scripts/recon_cmd.py）"
+     },
+     "verify": null,
+     "status": "unverified"
+    },
+    {
+     "i": 4,
+     "name": "徵兵",
+     "enabled_default": true,
+     "inputs": {
+      "need_officers": "1~5武将",
+      "need_target": "无",
+      "need_money": "見界面資金行",
+      "ability": "統率",
+      "note": "兵役人口為0时不可用；徵兵掉信望",
+      "source": "2026-09-18 全量界面侦察（scripts/recon_cmd.py）"
+     },
+     "verify": {
+      "signal": "士兵",
+      "observed": "陳留 40000 → 45118 (+5118)"
+     },
+     "status": "verified"
+    },
+    {
+     "i": 5,
+     "name": "訓練",
+     "enabled_default": true,
+     "inputs": {
+      "need_officers": "1~5武将",
+      "need_target": "无",
+      "need_money": "不花錢",
+      "ability": "武力",
+      "note": "交戰/混亂中不可执行",
+      "source": "2026-09-18 全量界面侦察（scripts/recon_cmd.py）"
+     },
+     "verify": {
+      "signal": "士氣",
+      "observed": "許昌 53/100 → 75/100 (+22)"
+     },
+     "status": "verified"
+    },
+    {
+     "i": 6,
+     "name": "買進",
+     "enabled_default": false,
+     "inputs": {
+      "need_officers": "1武将?",
+      "need_target": "商人所在",
+      "need_money": "按數量",
+      "ability": "政治",
+      "note": "⛔ 当前「沒有商人」→ 置灰",
+      "source": "2026-09-18 全量界面侦察（scripts/recon_cmd.py）"
+     },
+     "verify": {
+      "signal": "—",
+      "observed": "当前「沒有商人」→ 命令置灰"
+     },
+     "status": "blocked"
+    },
+    {
+     "i": 7,
+     "name": "賣出",
+     "enabled_default": false,
+     "inputs": {
+      "need_officers": "1武将?",
+      "need_target": "商人所在",
+      "need_money": "按數量",
+      "ability": "政治",
+      "note": "⛔ 当前「沒有商人」→ 置灰",
+      "source": "2026-09-18 全量界面侦察（scripts/recon_cmd.py）"
+     },
+     "verify": {
+      "signal": "—",
+      "observed": "当前「沒有商人」→ 命令置灰"
+     },
+     "status": "blocked"
+    }
+   ]
+  },
+  "軍事": {
+   "how": "eyeball",
+   "note": "read_menu 列检测失败(3 项太少聚不成列)，颜色全靠目视：三项均为彩色",
+   "shot": "1_軍事.jpg",
+   "items": [
+    {
+     "i": 0,
+     "name": "出征",
+     "enabled_default": true,
+     "inputs": {
+      "need_officers": "1~N武将(需布阵)",
+      "need_target": "★要选目标敵城",
+      "need_money": "耗兵糧",
+      "ability": "—",
+      "note": "拖曳配置阵形；今晚未走通",
+      "source": "2026-09-18 全量界面侦察（scripts/recon_cmd.py）"
+     },
+     "verify": null,
+     "status": "unverified"
+    },
+    {
+     "i": 1,
+     "name": "建設",
+     "enabled_default": true,
+     "inputs": {
+      "need_officers": "1武将（勾选框 + 決定）",
+      "need_target": "★两步：先选「工作物」，再**在地图上点一个地块**（无「一覽」按钮）",
+      "need_money": "費用（陣300/砦1200/箭樓1000/城塞2000/櫓100/土砂200/土壘400）+ 士兵（自动填）",
+      "ability": "—",
+      "note": "工作物表已读全（含最大耐久/恢復/兵法/特性）",
+      "source": "2026-09-18 实测"
+     },
+     "verify": {
+      "signal": "—",
+      "observed": "❌ 卡在最后一步：**地图点地块** —— 目前没有这个原语（也是出征要用的）"
+     },
+     "status": "partial"
+    },
+    {
+     "i": 2,
+     "name": "輸送",
+     "enabled_default": true,
+     "inputs": {
+      "need_officers": "1武将（单选，无「決定」/「總括選擇」）",
+      "need_target": "★两步：先选目標設施（可用「一覽」），再在弹出的「決定方針」里选自主撤退 許可/不許可",
+      "need_money": "士兵（自动填成该武将的「指揮」上限，可改）+ 行軍期間持續消耗兵糧",
+      "ability": "統率",
+      "note": "标题行是「執行設施 X」不是「命令設施 X」",
+      "source": "2026-09-18 实测下达"
+     },
+     "verify": {
+      "signal": "進行記錄 + 地图上出现行軍部隊 + 兵糧下降 + 原城大将换人",
+      "observed": "許昌→濮陽：廖化隊(10000兵)出现、題示「龔都 成為許昌的大將了」、兵糧 100060→94350"
+     },
+     "status": "verified",
+     "evidence": {
+      "shots": [
+       "C:/Users/luj05/san9ai/explore/S73_yusong_officer_set.jpg",
+       "C:/Users/luj05/san9ai/explore/S77_yusong_done.jpg",
+       "C:/Users/luj05/san9ai/explore/S78_yusong_final.jpg"
+      ]
+     }
+    }
+   ]
+  },
+  "人材": {
+   "how": "eyeball",
+   "note": "同軍事，目视四项均彩色",
+   "shot": "2_人材.jpg",
+   "items": [
+    {
+     "i": 0,
+     "name": "召來",
+     "enabled_default": true,
+     "inputs": {
+      "need_officers": "1武将",
+      "need_target": "无",
+      "need_money": "—",
+      "ability": "—",
+      "note": "召我軍團的武將到對象設施；实测当前无可召对象",
+      "source": "2026-09-18 全量界面侦察（scripts/recon_cmd.py）"
+     },
+     "verify": {
+      "signal": "—",
+      "observed": "当前无可召对象（界面列表空）"
+     },
+     "status": "blocked"
+    },
+    {
+     "i": 1,
+     "name": "移動",
+     "enabled_default": true,
+     "inputs": {
+      "need_officers": "1~5武将",
+      "need_target": "★要选目標設施",
+      "need_money": "—",
+      "ability": "—",
+      "note": "移動我軍團的武將到對象設施",
+      "source": "2026-09-18 全量界面侦察（scripts/recon_cmd.py）"
+     },
+     "verify": {
+      "signal": "進行記錄 + 目標城「在任」人数",
+      "observed": "許昌→濮陽：日誌「張寶等人似乎已進入了濮陽／濮陽的大将换成张宝」；濮陽 在任 0/0 → 3/3",
+      "evidence": "C:/Users/luj05/san9ai/explore/S66_puyang_after_move.jpg"
+     },
+     "status": "verified"
+    },
+    {
+     "i": 2,
+     "name": "探索",
+     "enabled_default": true,
+     "inputs": {
+      "need_officers": "1武将",
+      "need_target": "★要选目標地域",
+      "need_money": "—",
+      "ability": "智力",
+      "note": "探索武将或寶物；目标地域可在「一覽」里看「在野」人数",
+      "source": "2026-09-18 全量界面侦察（scripts/recon_cmd.py）"
+     },
+     "verify": {
+      "signal": "進行記錄",
+      "observed": "廖化→汝南（到達 10日），本旬未完成，日誌暂无"
+     },
+     "status": "partial"
+    },
+    {
+     "i": 3,
+     "name": "登庸",
+     "enabled_default": true,
+     "inputs": {
+      "need_officers": "1武将",
+      "need_target": "★要选對象武將",
+      "need_money": "—",
+      "ability": "政治",
+      "note": "登庸他势力/在野武将；有軍師発言提示成功率",
+      "source": "2026-09-18 全量界面侦察（scripts/recon_cmd.py）"
+     },
+     "verify": {
+      "signal": "進行記錄",
+      "observed": "嚴政→許靖 **失敗**（日誌「嚴政登庸許靖失敗。」）；下達前軍師張寶已提示「難矣」"
+     },
+     "status": "partial"
+    }
+   ]
+  },
+  "計略": {
+   "how": "eyeball",
+   "note": "read_menu 列检测失败；目视前 4 项彩色、后 4 项灰色",
+   "shot": "3_計略.jpg",
+   "items": [
+    {
+     "i": 0,
+     "name": "離間",
+     "enabled_default": true,
+     "inputs": {
+      "need_officers": "1武将",
+      "need_target": "★要选他势力武将",
+      "need_money": "—",
+      "ability": "智力",
+      "note": "降低其他势力武将的忠誠度",
+      "source": "2026-09-18 全量界面侦察（scripts/recon_cmd.py）"
+     },
+     "verify": null,
+     "status": "unverified"
+    },
+    {
+     "i": 1,
+     "name": "燒夷",
+     "enabled_default": true,
+     "inputs": {
+      "need_officers": "1武将",
+      "need_target": "★要选目標設施",
+      "need_money": "—",
+      "ability": "武力",
+      "note": "條件：武力高成功率增",
+      "source": "2026-09-18 全量界面侦察（scripts/recon_cmd.py）"
+     },
+     "verify": null,
+     "status": "unverified"
+    },
+    {
+     "i": 2,
+     "name": "奪取",
+     "enabled_default": true,
+     "inputs": {
+      "need_officers": "1武将",
+      "need_target": "★要选目標設施",
+      "need_money": "—",
+      "ability": "武力",
+      "note": "成功夺俘虜/資金",
+      "source": "2026-09-18 全量界面侦察（scripts/recon_cmd.py）"
+     },
+     "verify": null,
+     "status": "unverified"
+    },
+    {
+     "i": 3,
+     "name": "流言",
+     "enabled_default": true,
+     "inputs": {
+      "need_officers": "1武将",
+      "need_target": "★要选目標勢力",
+      "need_money": "—",
+      "ability": "智力",
+      "note": "惡化两个势力间的关系",
+      "source": "2026-09-18 全量界面侦察（scripts/recon_cmd.py）"
+     },
+     "verify": null,
+     "status": "unverified"
+    },
+    {
+     "i": 4,
+     "name": "偽報",
+     "enabled_default": false,
+     "inputs": {
+      "need_officers": "1武将",
+      "need_target": "★要选敵部隊",
+      "need_money": "—",
+      "ability": "智力",
+      "note": "实测当前「沒有可偽報的敵方部隊」",
+      "source": "2026-09-18 全量界面侦察（scripts/recon_cmd.py）"
+     },
+     "verify": {
+      "signal": "—",
+      "observed": "「沒有可偽報的敵方部隊」"
+     },
+     "status": "blocked"
+    },
+    {
+     "i": 5,
+     "name": "擾亂",
+     "enabled_default": false,
+     "inputs": {
+      "need_officers": "1武将",
+      "need_target": "★要选敵部隊",
+      "need_money": "—",
+      "ability": "智力",
+      "note": "实测当前「沒有可擾亂的敵方部隊」",
+      "source": "2026-09-18 全量界面侦察（scripts/recon_cmd.py）"
+     },
+     "verify": {
+      "signal": "—",
+      "observed": "「沒有可擾亂的敵方部隊」"
+     },
+     "status": "blocked"
+    },
+    {
+     "i": 6,
+     "name": "激勵",
+     "enabled_default": false,
+     "inputs": {
+      "need_officers": "1武将",
+      "need_target": "★要选友部隊",
+      "need_money": "—",
+      "ability": "智力",
+      "note": "实测当前「沒有可激勵的友方部隊」",
+      "source": "2026-09-18 全量界面侦察（scripts/recon_cmd.py）"
+     },
+     "verify": {
+      "signal": "—",
+      "observed": "「沒有可激勵的友方部隊」"
+     },
+     "status": "blocked"
+    },
+    {
+     "i": 7,
+     "name": "救援",
+     "enabled_default": false,
+     "inputs": {
+      "need_officers": "1武将",
+      "need_target": "★要选友部隊(3000+兵)",
+      "need_money": "—",
+      "ability": "統率",
+      "note": "实测当前「沒有可救援的友方部隊」",
+      "source": "2026-09-18 全量界面侦察（scripts/recon_cmd.py）"
+     },
+     "verify": {
+      "signal": "—",
+      "observed": "「沒有可救援的友方部隊」"
+     },
+     "status": "blocked"
+    }
+   ]
+  },
+  "外交": {
+   "how": "eyeball",
+   "note": "read_menu 列检测失败；目视四项均彩色",
+   "shot": "4_外交.jpg",
+   "items": [
+    {
+     "i": 0,
+     "name": "贈與",
+     "enabled_default": true,
+     "inputs": {
+      "need_officers": "1武将",
+      "need_target": "★要选目標勢力",
+      "need_money": "耗資金",
+      "ability": "政治",
+      "note": "贈送礼提高友好度",
+      "source": "2026-09-18 全量界面侦察（scripts/recon_cmd.py）"
+     },
+     "verify": null,
+     "status": "unverified"
+    },
+    {
+     "i": 1,
+     "name": "請求",
+     "enabled_default": true,
+     "inputs": {
+      "need_officers": "—",
+      "need_target": "★要选目標設施",
+      "need_money": "—",
+      "ability": "—",
+      "note": "要求出兵到指定的設施",
+      "source": "2026-09-18 全量界面侦察（scripts/recon_cmd.py）"
+     },
+     "verify": null,
+     "status": "unverified"
+    },
+    {
+     "i": 2,
+     "name": "交還",
+     "enabled_default": true,
+     "inputs": {
+      "need_officers": "—",
+      "need_target": "俘虜武将(归還)",
+      "need_money": "—",
+      "ability": "—",
+      "note": "实测当前「沒有成為俘虜的武將」",
+      "source": "2026-09-18 全量界面侦察（scripts/recon_cmd.py）"
+     },
+     "verify": {
+      "signal": "—",
+      "observed": "「沒有成為俘虜的武將」"
+     },
+     "status": "blocked"
+    },
+    {
+     "i": 3,
+     "name": "勸降",
+     "enabled_default": true,
+     "inputs": {
+      "need_officers": "—",
+      "need_target": "★要选目標勢力",
+      "need_money": "—",
+      "ability": "—",
+      "note": "向其他势力劝告投降",
+      "source": "2026-09-18 全量界面侦察（scripts/recon_cmd.py）"
+     },
+     "verify": null,
+     "status": "unverified"
+    }
+   ]
+  },
+  "任免": {
+   "how": "eyeball+color",
+   "note": "子菜单为免出屏**整体上移**（首行高于主列首行），read_menu 只按主列同一 top 找到前 3 项；全 8 项靠目视。前 5 彩色、后 3 灰色",
+   "shot": "5_任免.jpg",
+   "items": [
+    {
+     "i": 0,
+     "name": "委任",
+     "enabled_default": true,
+     "inputs": {
+      "need_officers": "—",
+      "need_target": "不綁設施",
+      "need_money": "資金/兵糧/武將/總士兵 各欄",
+      "ability": "—",
+      "note": "軍團的編組・解散・更動；界面無「命令設施」行",
+      "source": "2026-09-18 全量界面侦察（scripts/recon_cmd.py）"
+     },
+     "verify": null,
+     "status": "unverified"
+    },
+    {
+     "i": 1,
+     "name": "軍師",
+     "enabled_default": true,
+     "inputs": {
+      "need_officers": "1武将(智力70+)",
+      "need_target": "无",
+      "need_money": "—",
+      "ability": "—",
+      "note": "效果：軍師與前任者的忠誠；无合格人选时提示「沒有可任命的武將」",
+      "source": "2026-09-18 全量界面侦察（scripts/recon_cmd.py）"
+     },
+     "verify": {
+      "signal": "—",
+      "observed": "「沒有可任命的武將」（需智力70+ 且本旬未行动）"
+     },
+     "status": "blocked"
+    },
+    {
+     "i": 2,
+     "name": "爵位",
+     "enabled_default": true,
+     "inputs": {
+      "need_officers": "1武将（個別任命→全军名册→決定）",
+      "need_target": "无",
+      "need_money": "王命（数量未读到）",
+      "ability": "—",
+      "note": "有四個模式钮：個別任命/空缺任命/右遷任命/全部卸任",
+      "source": "2026-09-18 实测"
+     },
+     "verify": {
+      "signal": "—",
+      "observed": "❌ 選定后「爵位」清单仍为空、執行保持灰。濮陽 3 人已有校尉爵位；选别城武將也不进清单。原因待查"
+     },
+     "status": "blocked"
+    },
+    {
+     "i": 3,
+     "name": "褒獎",
+     "enabled_default": true,
+     "inputs": {
+      "need_officers": "1武将(麾下)",
+      "need_target": "无",
+      "need_money": "耗資金",
+      "ability": "—",
+      "note": "提高麾下武将的忠誠度；实测当前對象武將列表为空",
+      "source": "2026-09-18 全量界面侦察（scripts/recon_cmd.py）"
+     },
+     "verify": {
+      "signal": "—",
+      "observed": "對象武將列表为空"
+     },
+     "status": "blocked"
+    },
+    {
+     "i": 4,
+     "name": "授與",
+     "enabled_default": true,
+     "inputs": {
+      "need_officers": "1武将(麾下)",
+      "need_target": "★要选寶物",
+      "need_money": "—",
+      "ability": "—",
+      "note": "赠予宝物给麾下武将",
+      "source": "2026-09-18 全量界面侦察（scripts/recon_cmd.py）"
+     },
+     "verify": null,
+     "status": "unverified"
+    },
+    {
+     "i": 5,
+     "name": "沒收",
+     "enabled_default": false,
+     "inputs": {
+      "need_officers": "1武将(麾下有宝物)",
+      "need_target": "无",
+      "need_money": "—",
+      "ability": "—",
+      "note": "條件：俘虜/麾下有宝物",
+      "source": "2026-09-18 全量界面侦察（scripts/recon_cmd.py）"
+     },
+     "verify": {
+      "signal": "—",
+      "observed": "無符合条件的武将（需俘虜/麾下有宝物）"
+     },
+     "status": "blocked"
+    },
+    {
+     "i": 6,
+     "name": "處斬",
+     "enabled_default": false,
+     "inputs": {
+      "need_officers": "1武将(俘虜)",
+      "need_target": "无",
+      "need_money": "—",
+      "ability": "—",
+      "note": "实测当前「沒有俘虜」",
+      "source": "2026-09-18 全量界面侦察（scripts/recon_cmd.py）"
+     },
+     "verify": {
+      "signal": "—",
+      "observed": "「沒有俘虜」"
+     },
+     "status": "blocked"
+    },
+    {
+     "i": 7,
+     "name": "流放",
+     "enabled_default": false,
+     "inputs": {
+      "need_officers": "1武将(麾下或俘虜)",
+      "need_target": "无",
+      "need_money": "—",
+      "ability": "—",
+      "note": "放逐麾下武将或俘虏武将",
+      "source": "2026-09-18 全量界面侦察（scripts/recon_cmd.py）"
+     },
+     "verify": null,
+     "status": "unverified"
+    }
+   ]
+  }
+ }
+}
