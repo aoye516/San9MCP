@@ -1,90 +1,179 @@
-# San9MCP v0.1
+# San9MCP v0.2.0
 
-《三国志9 with 威力加强版》的 MCP 服务最小发布包。
+《三國志Ⅸ with 威力加強版》的 **MCP 工具包** —— 让 AI agent 用**游戏自己的语言**下令，
+而不是看像素、点坐标。
 
-这个版本的目标是：让外部 agent 能直接接入、看到一组已经存在并可调用的 MCP 工具；未完成的离线规划器不会出现在默认 `tools/list` 中。
+```json
+{"mcpServers": {"san9": {
+    "command": "python",
+    "args": ["-m", "san9mcp.server"],
+    "cwd": "C:/path/to/san9mcp"
+}}}
+```
 
-## 快速启动
+接上即用。标准输入输出 + 换行分隔 JSON-RPC 2.0，**不依赖 `mcp` SDK**。
 
-在本目录打开终端：
+> **本项目不附带游戏本体。** 你需要自备一份正版《三國志Ⅸ with 威力加強版》。
+
+---
+
+## 为什么做这一层
+
+让 agent 直接点坐标是撑不住的：一次「巡察」= 6 次点击，一局 300 旬 × 5 次操作
+≈ **9000 次点击**，每次都要截图 + 推理；而且中间任何一次点错，
+后面全崩 **而 agent 自己不知道**。
+
+所以中间加了一层**语义动作**。agent 说的是：
+
+```
+san9_deploy(row=1, officers="all", soldiers=8000,
+            target_row=14, expect_target="洛陽", dry_run=False)
+```
+
+而不是 `click(898, 884)`。失败模式因此从"静默错位"变成 `ok:false` + 明确原因。
+
+三条约束：**全 AI 操作 · 模型无关 · 长流程不崩（100~600 旬）**。
+
+---
+
+## v0.2.0 新增
+
+v0.1 只有内政 + 輸送 + 观测。v0.2.0 把**人材**和**軍事**两条命令线补齐，
+至此**战略面的基本玩法已经能全 AI 跑起来**。
+
+| 命令 | 工具 | 说明 |
+|---|---|---|
+| 人材 → 移動 | `san9_move` | 把武将移动到自势力的另一座设施 |
+| 人材 → 探索 | `san9_search` | 派人探索地域，找在野人才 / 宝物 |
+| 人材 → 登庸 | `san9_dengyong` | 招募在野 / 他势力武将 |
+| 軍事 → 出征 | `san9_deploy` | **完整链路**：选执行武将 →（可选）指定士兵数量 → 选目标 → 方针 → 出兵 |
+
+**出征**是本版最重的一条，全链真机验收过：
+
+```
+点城 → 軍事 → 出征 → 点「執行武將」→ 勾选 → 「決定」
+  →（游戏自动填好 大將/陣形/船/士兵；「士兵」可指定，如 8000）
+  → 点出征屏「執行」→ 自动弹出「選擇對象」目标表（15 行）
+  → 点某一行 → 直接弹出「決定方針」窗（目标 / 势力 / 到达预定 / 4 组方针开关）
+  → 点方針窗「執行」= 真正出兵（不可逆）
+  → 再到战略面点一次「進行」，部队开拔
+```
+
+`dry_run` 默认 `true`：**全程不发兵**，只把读到的目标表 / 方针窗交给你看。
+要真出兵才传 `dry_run=false`（且必须同时给 `target_row`）。
+
+---
+
+## 默认暴露的 24 个工具
+
+**环境与启动**
+
+- `san9_status` · `san9_launch` · `san9_focus`
+
+**观测（只读）**
+
+- `san9_look` —— 一站式总观测（是否干净战略面 · 年月/信望/資金/兵糧 · 设施列表）
+- `san9_topbar` · `san9_menu` · `san9_panel` · `san9_officers` · `san9_shot`
+
+**情报**
+
+- `san9_intel_officer`（全天下一览）· `san9_city_officers`（某城名册）· `san9_journal`（上旬命令结果）
+
+**命令**
+
+- `san9_facility_command` —— 内政六条：巡察 / 商業 / 開墾 / 修築 / 徵兵 / 訓練
+- `san9_target_own_city` —— 选一座自势力设施当命令目标
+- `san9_transport` —— 輸送士兵到自势力的另一座设施
+- `san9_move` · `san9_search` · `san9_dengyong` · `san9_deploy`
+
+**时间与清理**
+
+- `san9_end_turn` · `san9_dialog` · `san9_recover`
+
+**知识**
+
+- `san9_docs`（工具目录 + 六类命令目录 + 语义动作表）
+
+另有 `san9_ui_read`：只读当前已打开的 UI（真机支持 `command_menu` 与 `officer_picker`），
+只读、不点击、不关闭；其它屏幕明确返回不支持。
+
+---
+
+## 快速开始
 
 ```powershell
 python -m pip install -r requirements.txt
 python -m san9mcp.server
 ```
 
-MCP 客户端配置示例：
-
-```json
-{
-  "mcpServers": {
-    "san9": {
-      "command": "python",
-      "args": ["-m", "san9mcp.server"],
-      "cwd": "C:/path/to/san9mcp"
-    }
-  }
-}
-```
-
-也可以先不用 agent 做协议自检：
+不开 agent 也能做协议自检：
 
 ```powershell
 python scripts/mcp_probe.py list
 python scripts/mcp_probe.py call san9_status
+python scripts/mcp_probe.py call san9_look
 ```
 
-## v0.1 默认暴露的工具
+也可以用 Python 直接用核心库（`san9/`）：截图、OCR、界面识别、输入控制都在那里。
 
-默认启动时注册表共有 28 项，`tools/list` 暴露 20 项：
+---
 
-- 环境与启动：`san9_status`、`san9_launch`、`san9_focus`
-- 观测：`san9_look`、`san9_topbar`、`san9_menu`、`san9_panel`、`san9_officers`、`san9_shot`
-- 情报：`san9_intel_officer`、`san9_city_officers`
-- 命令与时间：`san9_facility_command`、`san9_transport`、`san9_target_own_city`、`san9_end_turn`、`san9_dialog`、`san9_journal`、`san9_recover`
-- 知识：`san9_docs`
-- 通用只读 UI：`san9_ui_read`
+## 设计原则
 
-`san9_ui_read` 当前只支持用户已经打开的两类界面：`command_menu` 和 `officer_picker`；它只读、不点击、不关闭。其他屏幕会明确返回不支持。
+**1. agent 看不到像素。** 工具返回的是语义化的读数，不是坐标。
 
-## 明确未纳入默认玩用能力
+**2. ⛔ 禁止盲点。** 每一次点击之前必须能回答「我凭什么知道要点这里？」——
+答案只能是**程序化检测**（连通块 / OCR 文字框 / 模板匹配）、
+**游戏语义推导**（选中列表某行后地图会让该设施落在屏幕正中），
+或**实测记录 + 运行时复核**。定位不到就**什么都不点**，返回 `ok:false` + 截图 + 说明。
 
-以下工具代码随包保留，方便后续开发，但当前是离线规划器或状态机，默认不会出现在 `tools/list`：
+**3. 判据要用不随状态变的东西。** 别拿"数值区""当前高亮的那一行"当"在不在某屏"的判据。
 
-- `san9_ui_choose`
-- `san9_ui_number`
-- `san9_intel_city`
-- `san9_target_officer`
-- `san9_target_force`
-- `san9_target_unit`
-- 以及其他 `stub` / `dev` 工具
+**4. 读数读不出 ≠ 不能操作。** 名字 OCR 不出来时，改用结构判据确认点击生效，
+并按列表**行号**认身份；没核对上的事要明确标出来，不许悄悄当成核对过。
 
-不要把 `SAN9_MCP_DEV=1` 当成生产启动参数；它只用于开发和标定。
+**5. 失败必清理。** 任何失败都要把界面收回干净战略面；
+清不干净时**明确要求人工介入**，不自动重试。
+
+这几条都不是洁癖 —— 每一条都对应一次真实的踩坑，细节见 [`CONTRIBUTING.md`](CONTRIBUTING.md)。
+
+---
 
 ## 运行前提
 
-- Windows；游戏窗口化运行，客户区 1280×960。
-- 必须使用正版《三国志9 with 威力加强版》及其启动器。
-- 游戏窗口必须在前台；截图和输入均作用于当前屏幕。
-- 默认运行数据目录为 `~/san9ai`，可用环境变量 `SAN9_DATA` 覆盖；建议使用纯英文路径。
-- 本仓库不包含游戏本体、存档、截图、运行日志或说明书原文。
+- Windows；游戏**窗口化**运行，客户区 **1280×960**。
+- 必须使用正版《三國志Ⅸ with 威力加強版》及其启动器。
+- 游戏窗口必须在前台；截图与输入均作用于当前屏幕。
+- 运行数据目录默认 `~/san9ai`，可用环境变量 `SAN9_DATA` 覆盖。**建议使用纯 ASCII 路径**
+  （OpenCV 遇到非 ASCII 路径在部分版本会静默失败）。
+- 游戏窗口的 `GAME_DIR` 默认值在 `san9/boot.py`，非默认安装位置请自行调整。
+
+---
 
 ## 目录
 
-- `san9mcp/`：MCP 协议层、注册表、运行时和工具入口。
-- `san9/`：截图、OCR、界面识别和输入控制核心库。
-- `config/`：运行所需的命令、路径、锚点和模板配置。
-- `scenarios/`：benchmark 场景定义。
-- `scripts/mcp_probe.py`：MCP 握手、工具列表和工具调用自检。
+| | |
+|---|---|
+| `san9/` | 截图、OCR、界面识别、输入控制核心库 |
+| `san9mcp/` | MCP 协议层、注册表、运行时、工具入口 |
+| `config/` | 命令表、路径表、锚点、模板 |
+| `scenarios/` | benchmark 场景定义（例：`zhangjiao_luoyang`）|
+| `scripts/mcp_probe.py` | MCP 握手 / 工具列表 / 工具调用自检 |
 
-## 安全边界
+---
 
-- 工具失败必须返回 `ok:false` 和原因，不把失败伪装成成功。
-- 读数读不出时返回不确定，不猜坐标、不猜名称、不盲点。
-- 需要真实游戏画面才能验证的工具，不因离线测试通过就宣称真机验收通过。
+## 不在本仓库里的东西
+
+- **游戏本体、存档、游戏素材**（版权归光荣特库摩所有）。
+- **说明书原文**及其转录。
+- **运行产出**：截图、日志、标定中间结果。
+- `docs/` 内部的机制实测笔记 —— 其中含维护过程中的对话记录，不公开。
+
+---
 
 ## 免责声明
 
-本项目是互操作性研究与 AI 评测工具，不含游戏本体或游戏数据文件。游戏及其素材版权归光荣特库摩所有。请自备正版游戏。
+本项目是**互操作性研究与 AI 评测工具**，不含游戏本体或游戏数据文件。
+游戏及其素材版权归 **光荣特库摩（KOEI TECMO）** 所有。请自备正版游戏。
 
-代码部分采用 MIT License，见 `LICENSE`。
+代码部分采用 MIT License，见 [`LICENSE`](LICENSE)。

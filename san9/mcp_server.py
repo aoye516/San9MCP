@@ -4,7 +4,7 @@
 
 Claude Code 接法（.mcp.json）：
     {"mcpServers": {"san9": {
-        "command": "C:/Users/luj05/.workbuddy/binaries/python/envs/default/Scripts/python.exe",
+        "command": "python",
         "args": ["-m", "san9.mcp_server"],
         "cwd": "C:/path/to/san9mcp"
     }}}
@@ -26,7 +26,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from san9 import actions as A  # noqa: E402
 
 PROTOCOL_VERSION = "2024-11-05"
-SERVER_INFO = {"name": "san9", "version": "0.1.0"}
+SERVER_INFO = {"name": "san9", "version": "0.2.0"}
 
 _session = None
 

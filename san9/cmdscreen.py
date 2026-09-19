@@ -124,29 +124,30 @@ def _color_mask(img: np.ndarray, kind: str) -> np.ndarray:
     r = img[:, :, 2].astype(int)
     if kind == "green":
         return (g > 80) & (g - r > 40) & (g - b > 20)
+    if kind == "cyan":
+        # 「一覽」按钮（青绿）。2026-09-19 从实拍帧 `S28_after_click_target.jpg` 量出：
+        #   一覽 按钮 BGR 均值 (80,84,49) ⇒ B-R=31、G-R=35
+        #   同屏的「中止」是 (35,57,98) ⇒ R 最大，不会被本条吸进来
+        # ⚠️ 阈值取得比实测松（25/20），留余量；⛔ 别调到能把红按钮吸进来的程度。
+        return (b > 80) & (b - r > 25) & (g - r > 20)
     return (r > 90) & (r - g > 40) & (r - b > 40)
 
 
-def find_button(hwnd: int, kind: str, y0: int, y1: int,
-                x0: int = 0, x1: int = 1280) -> tuple[int, int] | None:
-    """在横带 [y0,y1) 里找某个颜色的按钮，返回中心坐标。
+def find_button_in(img, kind: str, y0: int, y1: int,
+                   x0: int = 0, x1: int = 1280) -> tuple[int, int] | None:
+    """**纯函数版** `find_button` —— 吃一张帧，不碰窗口。
 
-    ⚠️ **不能用"整条带里某列有多少同色像素"当判据**（旧的 `_color_runs` 就是这么干的）。
-    因为带高是给"按钮可能出现在哪"留的余量（比如 `CMD_BTN_BAND=(640,800)` 有 160px），
-    而按钮本体只有 ~37px 高 —— `cover=0.6` 就要求某列有 96 个同色像素，
-    **永远达不到**，于是永远返回 None。实测「執行」明明绿得很清楚却找不到，
-    「決定」却能找到（因为它的带只有 42px 高）—— 就是这个原因。
+为什么拆出来（2026-09-19）
+--------------------------------
+离线重放历史截图时也需要找按钮（`scripts/probe_move_flow.py` 要把「移動」
+那条链逐帧量出来），但 `find_button(hwnd, ...)` 第一件事就是 `_frame(hwnd)`
+⇒ **离线根本调不了**。
 
-    正确做法：**在整条带里挑"最像按钮"的连通块**（宽高比 + 面积），
-    不要先做行剖面 —— 实测命令界面 y=753 有一条 267px 宽的**红色装饰横条**，
-    它把行剖面的峰值顶高、把子带拉长，结果选中的是那条装饰（返回 (808,757)，
-    而真正的「中止」在 (827,727)）→ 点下去什么也没发生。
-
-    实测对按钮：宽 30~220、高 16~70、面积 ≥ 300、填充率 ≥ 0.25。
-    """
+⛔ **不许另写一份检测逻辑**（项目教训：「能力被复刻，禁令就管不住副本」）——
+   `find_button` 改而调用本函数，检测判据只有**唯一一处**实现。
+"""
     import cv2
 
-    img = _frame(hwnd)
     m = _color_mask(img, kind)
     band = m[y0:y1, x0:x1]
     if not band.any():
@@ -175,6 +176,30 @@ def find_button(hwnd: int, kind: str, y0: int, y1: int,
         return None
     _ok, area, bx, by, bw, bh = max(like, key=lambda c: c[1])
     return (x0 + bx + bw // 2, y0 + by + bh // 2)
+
+
+def find_button(hwnd: int, kind: str, y0: int, y1: int,
+                x0: int = 0, x1: int = 1280) -> tuple[int, int] | None:
+    """在横带 [y0,y1) 里找某个颜色的按钮，返回中心坐标。
+
+    ⚠️ **不能用"整条带里某列有多少同色像素"当判据**（旧的 `_color_runs` 就是这么干的）。
+    因为带高是给"按钮可能出现在哪"留的余量（比如 `CMD_BTN_BAND=(640,800)` 有 160px），
+    而按钮本体只有 ~37px 高 —— `cover=0.6` 就要求某列有 96 个同色像素，
+    **永远达不到**，于是永远返回 None。实测「執行」明明绿得很清楚却找不到，
+    「決定」却能找到（因为它的带只有 42px 高）—— 就是这个原因。
+
+    正确做法：**在整条带里挑"最像按钮"的连通块**（宽高比 + 面积），
+    不要先做行剖面 —— 实测命令界面 y=753 有一条 267px 宽的**红色装饰横条**，
+    它把行剖面的峰值顶高、把子带拉长，结果选中的是那条装饰（返回 (808,757)，
+    而真正的「中止」在 (827,727)）→ 点下去什么也没发生。
+
+    实测对按钮：宽 30~220、高 16~70、面积 ≥ 300、填充率 ≥ 0.25。
+
+    ⭐ 2026-09-19：检测逻辑已抽到 `find_button_in(img, ...)`，本函数只剩取帧。
+       ⛔ 别在这里重新写一份判据 —— 离线（`scripts/probe_move_flow.py`）和在线
+       必须走**同一个**实现。
+    """
+    return find_button_in(_frame(hwnd), kind, y0, y1, x0, x1)
 
 
 # ---------------------------------------------------------------- 步骤
@@ -364,10 +389,28 @@ def submenu_items(hwnd: int, tries: int = 3, gap: float = 0.8) -> list[dict]:
     return []
 
 
-def open_command(hwnd: int, city_xy: tuple[int, int],
+def open_command(hwnd: int, city_xy: tuple[int, int] | None,
                  sub_index: int = 0, settle: float = 1.6,
-                 menu_index: int = 0, check_grey: bool = True) -> dict:
+                 menu_index: int = 0, check_grey: bool = True,
+                 submenu_gate: bool = True) -> dict:
     """点都市 → 键盘走菜单 → 进入「主菜单第 menu_index 项 / 其子菜单第 sub_index 项」。
+
+    ⭐ `city_xy=None` = **命令菜单已经开着**（调用方用 `atoms.open_command_menu` 开好的），
+       跳过"点都市"那一下，只走键盘。加这个入口是为了让「人材 → 移動」能复用
+       同一份键盘逻辑 —— ⛔ 不许在别的模块里再抄一遍走菜单的代码
+       （项目教训：「能力被复刻，禁令就管不住副本」）。
+
+    ⭐ `submenu_gate=False` = **不要用「子菜单项读了 0 项」来硬停**。
+       2026-09-19 真机踩到：`san9_move` 第一次跑就撞上**假阴性** ——
+       底栏明明已经是「移動我軍團的武將到對象設施」（= 光标确实停在「移動」上，说明字是游戏写的），
+       而 `submenu_items` 重试 3 次都读 0 项（人材子菜单只有 4 项，颜色行检测更不可靠）
+       ⇒ `open_command` 拒绝按 Enter ⇒ 整条链失败，**报出来的原因还是"键盘走菜单失败"**，
+       会把人往"定位不对"的方向带。
+       而 `submenu_items` 的 docstring 自己就写着「读到 0 项 ≠「没有命令」」。
+       ⇒ 给**有硬后置门**的调用方（`movecmd` 用 `looks_like_move_screen` 验结果）
+         一个显式开关跳过这道**启发式前置门**：按了 Enter 没进去，
+         后置门一样会拦住，而且报的原因更准。
+       ⛔ 默认 `True` —— **已验收的 `設施` 命令行为一字不改**。
 
     主菜单 6 项固定：設施(0) 軍事(1) 人材(2) 計略(3) 外交(4) 任免(5)。
     菜单打开后「設施」是默认选中项、子菜单默认选中第 0 项。
@@ -382,8 +425,9 @@ def open_command(hwnd: int, city_xy: tuple[int, int],
     **「没找到「總括選擇」按钮」—— 报的是症状，不是病因**（用户当场指出）。
     现在：发现是灰的 → **不按 Enter**，直接带着项序和原因返回。
     """
-    winio.click_client(hwnd, city_xy[0], city_xy[1], settle=0.35)
-    time.sleep(settle)
+    if city_xy is not None:
+        winio.click_client(hwnd, city_xy[0], city_xy[1], settle=0.35)
+        time.sleep(settle)
     # 鼠标移到菜单外，否则 hover 高亮会污染键盘读数
     l, t, _, _ = winio.client_rect_screen(hwnd)
     winio.move_cursor_input(l + 700, t + 840)
@@ -417,30 +461,38 @@ def open_command(hwnd: int, city_xy: tuple[int, int],
         # ⭐ **② 兜底：底栏没给出可识别原因时，才靠子菜单的可用状态判断。**
         items = submenu_items(hwnd)
         if not items:
-            # ⛔ **读到 0 项 → 停手，绝不当作"可用"往下按 Enter。**
-            # 这是"读漏了却不说"这个毛病在**关键路径**上的后果：
-            # 北海（本旬无武将、8 条全灰）会被读成"一切正常"。
-            return _not_available(hwnd, "submenu_unreadable", sub_read="0/8", **warn)
-
-        warn["sub_read"] = "%d/8" % len(items)
-        if sub_index < len(items):
-            it = items[sub_index]
-            warn["item"] = it
-            if not it["enabled"]:
-                # ⚠️ **子菜单"灰不灰"的读数不可靠，只能当线索、不能当结论。**
-                # 实测踩过（陳留·巡察，在任 4/4）：明明是**白字可用**的「巡察」，
-                # 却被读成 `enabled=False` → **把好命令拦死（假阴性）**，
-                # 报的还是 `command_disabled` 这个指向错误的方向。
-                # 现在：底栏（hint gate）才是权威——它已经在**上一步**拦掉真正被挡的命令；
-                # 走到这里说明底栏**没说不能做** ⇒ 不信灰读数，照常按 Enter。
-                # 真按了没反应，`_finish_without_picker` 会在「執行」不绿时拦住并留图。
-                warn["grey_doubt"] = it
+            if submenu_gate:
+                # ⛔ **读到 0 项 → 停手，绝不当作"可用"往下按 Enter。**
+                # 这是"读漏了却不说"这个毛病在**关键路径**上的后果：
+                # 北海（本旬无武将、8 条全灰）会被读成"一切正常"。
+                return _not_available(hwnd, "submenu_unreadable", sub_read="0/8", **warn)
+            # ⭐ 调用方**已有硬后置门**（`movecmd` 用 `looks_like_move_screen` 验结果）
+            # ⇒ 不用这道**启发式**前置门硬停（它 2026-09-19 在「人材」子菜单上假阴性，
+            #   底栏明明写着「移動我軍團的武將到對象設施」却因为读 0 项拒绝按 Enter）。
+            # 照常按 Enter；真没进去的话后置门会拦住，且报的原因更准。
+            warn["submenu_gate_skipped"] = True
+            warn["submenu_read"] = "0 项（本调用方不用它当门禁）"
         else:
-            # 读到了几项但没覆盖目标项 → **无法确认**，如实标出来再往下走。
-            # （不硬拦：子菜单行检测本来就常有缺口，全拦会把能用的命令也卡死。）
-            warn["incomplete"] = True
-            warn["note"] = ("子菜单只读到 %d 项，覆盖不到第 %d 项 → 这次没做置灰检查"
-                            % (len(items), sub_index))
+
+            warn["sub_read"] = "%d/8" % len(items)
+            if sub_index < len(items):
+                it = items[sub_index]
+                warn["item"] = it
+                if not it["enabled"]:
+                    # ⚠️ **子菜单"灰不灰"的读数不可靠，只能当线索、不能当结论。**
+                    # 实测踩过（陳留·巡察，在任 4/4）：明明是**白字可用**的「巡察」，
+                    # 却被读成 `enabled=False` → **把好命令拦死（假阴性）**，
+                    # 报的还是 `command_disabled` 这个指向错误的方向。
+                    # 现在：底栏（hint gate）才是权威——它已经在**上一步**拦掉真正被挡的命令；
+                    # 走到这里说明底栏**没说不能做** ⇒ 不信灰读数，照常按 Enter。
+                    # 真按了没反应，`_finish_without_picker` 会在「執行」不绿时拦住并留图。
+                    warn["grey_doubt"] = it
+            else:
+                # 读到了几项但没覆盖目标项 → **无法确认**，如实标出来再往下走。
+                # （不硬拦：子菜单行检测本来就常有缺口，全拦会把能用的命令也卡死。）
+                warn["incomplete"] = True
+                warn["note"] = ("子菜单只读到 %d 项，覆盖不到第 %d 项 → 这次没做置灰检查"
+                                % (len(items), sub_index))
 
     # ⛔ **上面那一段只是"检查"，这里才是真正进命令 —— 千万别在检查里 return 掉。**
     # 踩过（2026-09-18）：我在"确认可用"那一支直接 `return {"ok": True}`，
@@ -465,6 +517,103 @@ TAB_COLOR_MIN = 30               # 峰值低于它 = 这一帧没有标签行
 TAB_COLOR_FRAC = 0.25            # 峰值行两侧按这个比例收边
 
 
+def find_blue_labels_in(img) -> list[dict]:
+    """找命令界面里的**蓝色标签**（`目標設施` / `執行武將` / `武將` 这类）。
+
+    纯函数版 —— 吃一张帧。`find_officer_tab` 与 `find_target_label` 共用它，
+    ⛔ 检测判据只有这一处实现（项目教训：「能力被复刻，禁令就管不住副本」）。
+
+    返回按 y 从小到大排的列表：`[{"x": 中心x, "y": 中心y, "y0","y1","x0","x1"}, ...]`
+
+    判据（2026-09-19 沿用 `find_officer_tab` 实测结论）：
+      · **只找蓝色系**（`B >= R and B >= G`）—— 界面下方还有「執行」(绿)
+        和「中止」(红) 按钮，饱和度比标签还高，只按 sat 找会定位到按钮行（实测 y 被拉到 703）
+      · 逐行统计 sat>55 的像素数，**取峰值最高的那一段**（不是首尾区间 ——
+        界面上别处也有零星彩色，首尾会被拉偏，实测偏 88px）
+      · 用 `x` 范围反查该段的水平边界，所以两个标签的 x 各按各的量
+    """
+    B = img[:, :, 0].astype(int)
+    G = img[:, :, 1].astype(int)
+    R = img[:, :, 2].astype(int)
+    sat = np.maximum(np.maximum(B, G), R) - np.minimum(np.minimum(B, G), R)
+    blue = (sat > TAB_COLOR_SAT) & (B >= R) & (B >= G)
+    y0, y1 = TAB_COLOR_BAND
+    x0, x1 = TAB_COLOR_X
+    sub = blue[y0:y1, x0:x1]
+    prof = sub.sum(axis=1)
+    peak = int(prof.max())
+    if peak < TAB_COLOR_MIN:
+        # ⭐ **不是「找不到」，而是「这一屏本来就没有蓝色标签」** —— 见 `_finish_without_picker`。
+        return []
+    ys = np.flatnonzero(prof >= peak * TAB_COLOR_FRAC)
+    if ys.size == 0:
+        return []
+    segs: list[list[int]] = [[int(ys[0]), int(ys[0])]]
+    for a, b in zip(ys[:-1], ys[1:]):
+        if int(b) - int(a) > 3:
+            segs.append([int(b), int(b)])
+        else:
+            segs[-1][1] = int(b)
+
+    out = []
+    for lo, hi in segs:
+        rows = sub[lo:hi + 1].any(axis=0)
+        cols = np.flatnonzero(rows)
+        if cols.size == 0:
+            continue
+        out.append({"x0": int(x0 + cols[0]), "x1": int(x0 + cols[-1]),
+                    "y0": int(y0 + lo), "y1": int(y0 + hi),
+                    "x": int(x0 + (cols[0] + cols[-1]) // 2),
+                    "y": int(y0 + (lo + hi) // 2)})
+    return out
+
+
+TARGET_LABEL_Y_MIN = 340
+"""找「目標XX」标签时的**下界** —— 用来把**对话框标题横幅**排除掉。
+
+⛔ 2026-09-19 真机（平原·探索）：`find_blue_labels_in` 在那屏上读到 3 个候选：
+
+    (459,308) 宽116 · (455,321) 宽102 · (440,430) 宽111
+
+前两个**不是标签**，是对话框左上那个**紫色标题横幅「探索」** ——
+紫底同样满足「B≥R 且饱和度高」的蓝色系判据。
+真正的 `目標地域` 标签是 **(440,430)**。
+按"取最上面那个"去点 ⇒ 点到标题横幅上，**屏幕前后两帧完全相同**（真机验证）。
+
+⚠️ 而这个 bug 在**移动**上没暴露（那次标题横幅没落进 `TAB_COLOR_BAND`）
+   ⇒ **别因为"移动跑通了"就以为这条检测是干净的。**
+
+实测：标题横幅 y≈300..325；`目標設施` 390 · `目標地域` 430 ⇒ 340 落在两者中间。
+⛔ 不许改成"按宽度区分" —— 116 vs 111 分不开。
+"""
+
+
+def find_target_label(hwnd: int) -> tuple[tuple[int, int] | None, str]:
+    """现场找「目標XX」标签（`目標設施` / `目標地域`）的点击中心。
+
+    ⚠️ 判据与 `find_officer_tab` **同源、方向相反**：
+    这类命令界面（移動 / 探索）上有两个彩色标签 ——「目標…」在上、「執行武將」在下。
+    `find_officer_tab` 取**最靠下**那段拿「執行武將」；
+    本函数取**最靠上**那段拿「目標…」，但**必须排掉标题横幅**（见 `TARGET_LABEL_Y_MIN`）。
+
+    ⛔ 点错成「執行武將」的后果不是"没反应"，是**打开选将弹窗**（界面多开一层），
+       所以这一步必须认准 —— 用 y 排序取 `[0]`，不是取峰值。
+    """
+    try:
+        img = _frame(hwnd)
+    except Exception:
+        return None, "no_frame"
+    labels = find_blue_labels_in(img)
+    if not labels:
+        return None, "no_colored_tab"
+    labels = [d for d in labels if d["y0"] >= TARGET_LABEL_Y_MIN]
+    if not labels:
+        return None, "only_title_banner"     # 只读到标题横幅 ⇒ 如实说，别乱点
+    labels.sort(key=lambda d: d["y0"])
+    lo = labels[0]
+    return (lo["x"], lo["y"]), "color_top"
+
+
 def find_officer_tab(hwnd: int) -> tuple[tuple[int, int] | None, str]:
     """现场找「執行武將」标签的点击中心。返回 ((x, y), 依据)。
 
@@ -483,42 +632,20 @@ def find_officer_tab(hwnd: int) -> tuple[tuple[int, int] | None, str]:
         img = _frame(hwnd)
     except Exception:
         return None, "no_frame"
-    B = img[:, :, 0].astype(int)
-    G = img[:, :, 1].astype(int)
-    R = img[:, :, 2].astype(int)
-    sat = np.maximum(np.maximum(B, G), R) - np.minimum(np.minimum(B, G), R)
-    # ⚠️ 必须**只找蓝色系**：界面下部还有「執行」(绿) 和「中止」(红) 按钮，
-    # 它们的饱和度比标签还高 → 只按 sat 找会定位到按钮行（实测 y 被拉到 703）。
-    blue = (sat > TAB_COLOR_SAT) & (B >= R) & (B >= G)
-    y0, y1 = TAB_COLOR_BAND
-    x0, x1 = TAB_COLOR_X
-    prof = blue[y0:y1, x0:x1].sum(axis=1)
-    peak = int(prof.max())
-    if peak < TAB_COLOR_MIN:
+    labels = find_blue_labels_in(img)
+    if not labels:
         # ⭐ **这不是「找不到」，而是「这一屏本来就没有蓝色标签」** —— 见 `_finish_without_picker`。
         # 本旬只剩 1 名可行动武将时，标签会**置灰**（不是蓝色），台上已自动选好。
         # ⛔ 以前这里返回硬编码 (410, CMD_TABS_Y=362) 去点 —— 实测点空、
         #    一路报到「没找到『總括選擇』按钮」，**白点一下还指错方向**。
         return None, "no_colored_tab"
-    ys = np.flatnonzero(prof >= peak * TAB_COLOR_FRAC)
-    if ys.size == 0:
-        return None, "no_colored_tab"
-    # ⚠️ 取"**峰值最高的那一段**"，而不是首尾区间 ——
-    # 界面上别处也有零星彩色（花纹/红按钮），首尾区间会被它们拉偏
-    # （实测把 y=415 的标签行算成了 503，偏 88px）。
-    segs: list[list[int]] = [[int(ys[0]), int(ys[0])]]
-    for a, b in zip(ys[:-1], ys[1:]):
-        if int(b) - int(a) > 3:
-            segs.append([int(b), int(b)])
-        else:
-            segs[-1][1] = int(b)
     # ⚠️ 取"**最靠下**"的那一段，而不是"峰值最高"的 ——
     # 「移動」界面上有**两个**蓝色标签（「目標設施」在上、「執行武將」在下），
     # 峰值最高的往往是「目標設施」→ 点它会重开"选目标"模式而不是选武将（实测踩过）。
     # 而「執行武將」总是**最下面**那个蓝标签，两种界面对这个判据都成立。
-    best = max(segs, key=lambda s: s[1])
-    y = y0 + (best[0] + best[1]) // 2
-    return (CMD_TAB_X["執行武將"], y), "color"
+    labels.sort(key=lambda d: d["y1"])
+    lo = labels[-1]
+    return (CMD_TAB_X["執行武將"], lo["y"]), "color"
 
 
 def open_officer_picker(hwnd: int) -> dict:

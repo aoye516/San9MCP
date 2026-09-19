@@ -7,7 +7,7 @@
 接法（Claude Code / Codex / WorkBuddy 的 MCP 配置都一样）：
 
     {"mcpServers": {"san9": {
-        "command": "C:/Users/luj05/.workbuddy/binaries/python/envs/default/Scripts/python.exe",
+        "command": "python",
         "args": ["-m", "san9mcp.server"],
         "cwd": "C:/path/to/san9mcp"
     }}}
@@ -28,7 +28,7 @@ from san9mcp import registry, runtime, scheduler  # noqa: E402
 from san9mcp import tools  # noqa: E402,F401   —— 导入即注册
 
 PROTOCOL_VERSION = "2024-11-05"
-SERVER_INFO = {"name": "san9", "version": "0.1.0"}
+SERVER_INFO = {"name": "san9", "version": "0.2.0"}
 SCHEDULER = scheduler.Scheduler()
 
 

@@ -992,8 +992,9 @@ def select(hwnd, index: int) -> dict:
 
 # ------------------------------------------------------------------ 原子 3：读菜单
 
-def open_command_menu(hwnd, row: int, expect: str | None = None) -> dict:
-    """**选中第 row 行 → 点屏幕正中 → 用左上标题核实**。返回看到的是谁。
+def open_command_menu(hwnd, row: int, expect: str | None = None,
+                      allow_title_unread: bool = True) -> dict:
+    """**选中第 row 行 → 点屏幕正中 → 核实**。返回看到的是谁。
 
     这是本文件里唯一正确的"打开某设施命令菜单"的路径。
     不要用 `cmdscreen.find_city_on_map`（它返回巨型糊块的质心，见 CITY_CLICK 注释）。
@@ -1005,7 +1006,20 @@ def open_command_menu(hwnd, row: int, expect: str | None = None) -> dict:
     现在**只点一个点**，而且它**不是猜的、是推导出来的**：
     点右侧列表某行后，地图会滚过去让该设施**落在屏幕正中**（实测配方），
     所以 `CITY_CENTER` 就是那个设施本身。
-    点完立刻读左上标题核实；**核实不上就如实报错、停手，绝不换坐标重试。**
+
+    ⭐⭐ **2026-09-20 改：标题读不出不再等于"不能操作"**（用户指正：
+    「不能读不出就不操作呀，每个城市都得操作，读不出能操作的城市也得操作」）。
+    核实分两级：
+
+      1. **一级（首选）**：左上情报面板的标题读得出 → 用它核对名字（`verified_by="title"`）。
+      2. **二级（兜底）**：标题读不出 → 改用**结构判据**：`cmdmenu.read_menu()` 报命令菜单
+         **真的开了**（`verified_by="menu_opened"`）。**点空地图/海面是开不出命令菜单的**，
+         所以这条能证明"点中的确实是个设施"；设施的**身份**则按
+         **右侧列表第 `row` 行**的位置认（这正是"按行号操作"的语义）。
+         ⛔ 仍然**只点一个点、不换坐标重试**；⛔ 也**不会**把名字当成必需项。
+
+    ⛔ 标题读不出这件事会在返回里**明确标出来**（`title_unread=True` + `warn`），
+       让调用方知道"名字没核对过，身份是按行号认的"。⛔ 不许悄悄当成核对过。
     """
     out: dict = {"ok": False, "row": row, "expect": expect}
     try:
@@ -1023,9 +1037,28 @@ def open_command_menu(hwnd, row: int, expect: str | None = None) -> dict:
     out["commanded"] = commanded_facility(hwnd)
     if out["commanded"]:
         out["ok"] = True
+        out["verified_by"] = "title"
         if expect and out["commanded"] != expect:
             out["warn"] = f"期望「{expect}」，游戏报「{out['commanded']}」—— 以游戏为准"
         return out
+
+    # ⭐ 二级核实：标题读不出 → 看**命令菜单有没有真的开**
+    if allow_title_unread:
+        try:
+            m = cmdmenu.read_menu(hwnd)
+        except Exception as e:                                   # pragma: no cover
+            m = {"found": False, "why": "read_menu 抛异常：%s" % e}
+        out["menu_found"] = bool(m.get("found"))
+        if m.get("found"):
+            out["ok"] = True
+            out["verified_by"] = "menu_opened"
+            out["title_unread"] = True
+            out["hint"] = hint(hwnd)
+            out["warn"] = ("左上标题读不出 ⇒ **没做名字核对**；已用结构判据确认**命令菜单真的开了**"
+                           "（点空地图不会开菜单）。本次操作的设施身份 = **右侧列表第 %d 行**。"
+                           % row)
+            return out
+
     out["why"] = ("点了屏幕正中（选中列表行后设施应落在这里），但左上情报面板的标题读不出来"
                   " → **无法确认点对了，停手**。**不换坐标重试** —— "
                   "要么是这个设施的名字 OCR 读不出，要么列表行选错了，"
