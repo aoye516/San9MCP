@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import time
 
+import cv2
 import numpy as np
 
 from . import ocr, winio
@@ -41,10 +42,96 @@ def _go_score(hwnd) -> float | None:
     return float(go["score"]) if go and go.get("found") else None
 
 
+def bright_dialog(hwnd) -> dict:
+    """**中央亮底对话框**的结构判据（只读）。
+
+    与 `session.py` 用**同一套常量与四条判据**（那里记过这个坑：
+    确认框在画面正中央，**盖不住右下角的「進行」**，实测 go 分数还有 0.91）。
+
+    实测：过旬确认框 540x184 / 修行弹窗 428x213 / 干净战略面 132x**29**。
+    """
+    from . import session as _s
+    import cv2
+    gw, gh, buf = winio.grab(hwnd, use_window_dc=False)
+    arr = np.frombuffer(buf, dtype=np.uint8).reshape(gh, gw, 4)
+    gray = arr[:, :, 0] * 0.114 + arr[:, :, 1] * 0.587 + arr[:, :, 2] * 0.299
+    x0, y0, x1, y1 = _s.DIALOG_WATCH
+    win = (gray[y0:y1, x0:x1] > _s.DIALOG_BRIGHT).astype(np.uint8)
+    bright = float(win.mean())
+    blob = bw = bh = 0
+    fill = 0.0
+    if win.any():
+        _n, _lab, st, _ce = cv2.connectedComponentsWithStats(
+            np.ascontiguousarray(win), 8)
+        if _n > 1:
+            i = max(range(1, _n), key=lambda k: st[k][4])
+            blob, bw, bh = int(st[i][4]), int(st[i][2]), int(st[i][3])
+            fill = blob / max(1, bw * bh)
+    ok = bool(blob >= _s.DIALOG_MIN_BLOB
+              and _s.DIALOG_W_RANGE[0] <= bw <= _s.DIALOG_W_RANGE[1]
+              and _s.DIALOG_H_RANGE[0] <= bh <= _s.DIALOG_H_RANGE[1]
+              and _s.DIALOG_FILL_RANGE[0] <= fill <= _s.DIALOG_FILL_RANGE[1])
+    return {"ok": ok, "bright_frac": round(bright, 3), "blob": blob,
+            "box": [bw, bh], "fill": round(fill, 2)}
+
+
+def bottom_clean(hwnd) -> bool:
+    """底栏是不是「請選擇命令起點」（= 干净战略面的**文字**判据）。
+
+    ⚠️ OCR 会把「請」读成「遥」⇒ **只匹配尾巴「命令起點」**，别匹配整句。
+    """
+    try:
+        from . import cmdscreen
+        h = cmdscreen.read_hint(hwnd) or ""
+    except Exception:
+        return False
+    return "命令起點" in h or "命令起点" in h
+
+
 def blocking(hwnd) -> bool:
-    """战略面是否被挡（`go` 锚点 < 0.8）。**只读。**"""
+    """战略面是否被挡（**只读，且失败安全**）。
+
+    ⛔⛔ 2026-09-20 修（用户报「过旬经常卡弹窗」）：
+    旧写法是 `s is not None and s < 0.8` —— **`go` 锚点完全找不到时（`found=False`）
+    `s` 就是 `None` ⇒ 直接返回 False（= "没被挡"）**。
+
+    实测「仕官待遇」弹窗正是这种：
+
+    | 帧 | go 锚点 | 旧 `blocking()` | 底栏 |
+    |---|---|---|---|
+    | **仕官待遇弹窗** | **found=False** | **False** ❌ | `決定是否接受仕官` |
+    | 干净战略面 | found=True score=0.91 | False ✓ | `請選擇命令起點` |
+
+    ⇒ `san9_end_turn` 因此走 hard fail 分支，报成
+    「演出画面持续超过 150 秒还没结束」—— **旬其实推进了，只是弹窗挡着顶栏读不到**。
+
+    现在**三段任一成立就算被挡**：
+      ① `go` 锚点找得到、但分低；
+      ② `go` 锚点分高、**但中央盖着一块亮底对话框**（确认框盖不住右下角的坑）；
+      ③ **`go` 锚点找不到** ⇒ 看底栏是不是「請選擇命令起點」。
+
+    ⛔⛔ **使用禁区：不要在"过旬演出进行中"用它。**
+      演出期间 `go` 锚点本来就找不到、底栏也不是「請選擇命令起點」
+      ⇒ 本函数会返回 **True（假阳性）**。`session.py` 里已经记过这个坑
+      （把过旬演出误判成弹窗 ⇒ 添乱）。所以**只在"演出已经超时/结束、要判断
+      到底是被弹窗挡住还是真没推进"时使用**（`san9_end_turn` 就是这么用的）。
+    """
     s = _go_score(hwnd)
-    return s is not None and s < 0.8
+    if s is not None:
+        if s < 0.8:
+            return True
+        return bool(bright_dialog(hwnd).get("ok"))      # ②
+    return not bottom_clean(hwnd)                       # ③：找不到锚点 ⇒ 看底栏
+
+
+def blocking_detail(hwnd) -> dict:
+    """`blocking()` 的三段证据（给人看 / 排查用）。**只读**。"""
+    s = _go_score(hwnd)
+    d = bright_dialog(hwnd)
+    bot = bottom_clean(hwnd)
+    return {"go_score": s, "go_found": s is not None,
+            "bright_dialog": d, "bottom_clean": bot,
+            "blocking": blocking(hwnd)}
 
 
 def read_dialog(hwnd) -> dict:

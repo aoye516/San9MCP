@@ -59,6 +59,7 @@ def san9_end_turn(n: int = 1):
             # `advanced=0` → 旧代码于是报「第 1 旬没推进」，**完全指错方向**。
             if dialog.blocking(w.hwnd):
                 d = dialog.read_dialog(w.hwnd)
+                d["how_judged"] = dialog.blocking_detail(w.hwnd)
                 return runtime.ok(
                     focused=focused, asked=n, advanced=i, rounds=rounds,
                     date_before=date_before, date_after=_date(w.hwnd),
@@ -73,6 +74,7 @@ def san9_end_turn(n: int = 1):
                 "第 %d 旬没推进：%s" % (i + 1, r.get("why") or "未知原因"),
                 focused=focused, advanced=i, rounds=rounds,
                 date_before=date_before, date_after=_date(w.hwnd),
+                dialog_check=dialog.blocking_detail(w.hwnd),
                 hint="先调 san9_shot 看现场，需要的话 san9_recover 清理")
 
     date_after = _date(w.hwnd)
@@ -93,6 +95,7 @@ def san9_end_turn(n: int = 1):
     # 让它用 `san9_dialog` 拍板。**不许在这儿干等，也不许替它决定。**
     if dialog.blocking(w.hwnd):
         d = dialog.read_dialog(w.hwnd)
+        d["how_judged"] = dialog.blocking_detail(w.hwnd)
         return runtime.ok(**out, complete=False, stage="need_dialog",
                           blocked_by="dialog", dialog=d,
                           next="调 san9_dialog 看正文并按索引回答；"

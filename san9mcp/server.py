@@ -28,7 +28,7 @@ from san9mcp import registry, runtime, scheduler  # noqa: E402
 from san9mcp import tools  # noqa: E402,F401   —— 导入即注册
 
 PROTOCOL_VERSION = "2024-11-05"
-SERVER_INFO = {"name": "san9", "version": "0.2.0"}
+SERVER_INFO = {"name": "san9", "version": "0.2.1"}
 SCHEDULER = scheduler.Scheduler()
 
 
